@@ -102,7 +102,7 @@ function Payment() {
       }
     );
     const options = {
-      key: "rzp_test_SaDLK88WjWnalv",
+      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: res.data.amount,
       currency: "INR",
       name: "Your Store",

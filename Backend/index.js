@@ -5,9 +5,12 @@ const UserModel=require("./models/Users")
 const ProductModel=require("./models/Products")
 const CartModel = require("./models/Cart");
 const multer = require("multer");
-const nodemailer = require("nodemailer");
+
 const OrderModel = require("./models/Orders");
-const Razorpay = require("razorpay");
+
+
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 const fs = require("fs");
 const path = require("path");
@@ -26,13 +29,24 @@ const upload = multer({ storage: storage })
 const app=express()
 app.use(express.json())
 app.use(cors())
-mongoose.connect("mongodb://localhost:27017/user");
+// mongoose.connect("mongodb://localhost:27017/user");
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 app.use("/uploads", express.static("uploads"));
 
+// const razorpay = new Razorpay({
+//   key_id: "rzp_test_SaDLK88WjWnalv",
+//   key_secret: "0iHlHXQKrqTRLdyZqr9Angam",
+// });
+
+const Razorpay = require("razorpay");
+
 const razorpay = new Razorpay({
-  key_id: "rzp_test_SaDLK88WjWnalv",
-  key_secret: "0iHlHXQKrqTRLdyZqr9Angam",
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 //login
@@ -277,13 +291,20 @@ app.get("/products/category/:category", async (req, res) => {
   }
 });
 
-//email configuration
+// //email configuration
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "ashwiniisha31@gmail.com",      
+//     pass: "flnd iony hgkg hoxp"           
+//   }
+// });
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "ashwiniisha31@gmail.com",      
-    pass: "flnd iony hgkg hoxp"           
-  }
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
 //create order
