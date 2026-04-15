@@ -21,7 +21,7 @@ function EditProduct() {
 
     
     useEffect(() => {
-        axios.get(`http://localhost:3001/products/${id}`)
+        axios.get(`https://fireboltt-backend.onrender.com/products/${id}`)
             .then(res=> {
                 setProduct(res.data);
             })
@@ -40,7 +40,7 @@ function EditProduct() {
         formData.append("price",product.price);
         formData.append("quantity",product.quantity);
         formData.append("rating",product.rating);
-        await axios.put(`http://localhost:3001/products/${id}`,formData,{
+        await axios.put(`https://fireboltt-backend.onrender.com/products/${id}`,formData,{
             headers:{"Content-Type":"multipart/form-data"},
         });
         alert("product updated successfully");
