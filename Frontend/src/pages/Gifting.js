@@ -10,7 +10,7 @@ function Gifting() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/products/category/smartwatch") 
+      .get("https://fireboltt-backend.onrender.com/products/category/smartwatch") 
       .then((res) => setProducts(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -32,7 +32,7 @@ function Gifting() {
       return;
     }
     try {
-      await axios.post("http://localhost:3001/cart", {
+      await axios.post("https://fireboltt-backend.onrender.com/cart", {
         productId: product._id,
         quantity: 1,
         userId: user._id,
@@ -59,7 +59,7 @@ function Gifting() {
           {
           products.map((product) => (
             <div key={product._id} className="gift-card" onClick={() => navigate(`/ProductDisplay/${product._id}`)}>
-              <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title}/>
+              <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title}/>
               <h3>{product.title}</h3>
               <p>₹{product.price}</p>
               <button className="cart-btn" onClick={(e) => {
