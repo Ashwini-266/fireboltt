@@ -37,10 +37,7 @@ mongoose
 
 app.use("/uploads", express.static("uploads"));
 
-// const razorpay = new Razorpay({
-//   key_id: "rzp_test_SaDLK88WjWnalv",
-//   key_secret: "0iHlHXQKrqTRLdyZqr9Angam",
-// });
+
 
 const Razorpay = require("razorpay");
 
@@ -291,14 +288,7 @@ app.get("/products/category/:category", async (req, res) => {
   }
 });
 
-// //email configuration
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "ashwiniisha31@gmail.com",      
-//     pass: "flnd iony hgkg hoxp"           
-//   }
-// });
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
