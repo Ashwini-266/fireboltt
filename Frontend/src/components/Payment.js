@@ -47,7 +47,7 @@ function Payment() {
     setLoading(true); 
     if (cartItems && cartItems.length > 0) {
       for (let item of cartItems) {
-        await axios.post("http://localhost:3001/orders", {
+        await axios.post("https://fireboltt-backend.onrender.com/orders", {
           userName: user.firstname,
           email: user.email,
           phone: Number(formData?.phone),
@@ -62,9 +62,9 @@ function Payment() {
             paymentMethod === "COD" ? "PENDING" : "PAID",
         });
       }
-      await axios.delete(`http://localhost:3001/cart/${user._id}`);
+      await axios.delete(`https://fireboltt-backend.onrender.com/cart/${user._id}`);
     } else if (product) {
-      await axios.post("http://localhost:3001/orders", {
+      await axios.post("https://fireboltt-backend.onrender.com/orders", {
         userName: user.firstname,
         email: user.email,
         phone: Number(formData?.phone),
@@ -96,7 +96,7 @@ function Payment() {
     const totalAmount = cartItems? cartItems.reduce((sum, item) =>
             sum + item.productId.price * item.quantity,0
         ) : product?.price;
-    const res = await axios.post("http://localhost:3001/create-razorpay-order",
+    const res = await axios.post("https://fireboltt-backend.onrender.com/create-razorpay-order",
       { 
         amount: totalAmount 
       }
