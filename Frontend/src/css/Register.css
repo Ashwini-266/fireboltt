@@ -1,0 +1,70 @@
+.register-container {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f3f3f3;
+  min-height: 70vh;
+}
+
+.register-container h2 {
+  font-size: 28px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 14px;
+  margin-bottom: 40px;
+  font-weight: 500;
+}
+
+.register-form {
+  width: 400px;
+  margin: auto;
+  text-align: left;
+}
+
+.register-form label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.register-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 25px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.create-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.login-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color:black;
+}
+
+.login-link span {
+  font-weight: bold;
+  cursor: pointer;
+  color:black;
+}
+.subtitle{
+  color:black;
+}
+.otp-btn{
+  background-color: black;
+  color:white;
+  border-radius: 5px;
+  border:none;
+}

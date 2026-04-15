@@ -1,0 +1,263 @@
+.home-container {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.stats-section {
+  padding: 60px 5%;
+  text-align: center;
+  background: #f4f4f4;
+}
+
+.stats-title {
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.stats-title span {
+  color: #ff4d00;
+  font-weight: 600;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.stat-card {
+  flex: 1;
+  min-width: 220px;
+  background: linear-gradient(to right, #eaeaea, #f7f7f7); 
+  padding: 25px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  justify-content: center;
+  transition: 0.3s ease;
+}
+.stat-card:hover {
+   transform: translateY(-5px);
+}
+.stat-card .icon {
+  font-size: 28px;
+  color: #ff4d00;
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 12px;
+  color: #555;
+}
+
+.best-home-section {
+  padding: 60px 5%;
+  background: #f7f7f7;
+}
+
+.best-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.best-header h2 {
+  font-size: 26px;
+}
+
+.best-header h2 span {
+  color: #ff4d00;
+}
+
+
+.tabs span {
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.active-tab {
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+
+.best-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  
+}
+.indivual-product{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  transition:0.3s ease;
+  text-align:center;
+}
+.indivual-product:hover{
+  transform: translateY(-5px);
+}.indivual-product img{
+  width:100%;
+  height:180px;
+  object-fit:contain;
+  
+}
+.best-grid p{
+  color:black;
+}
+
+.best-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  transition: 0.3s ease;
+  text-align: center;
+}
+
+.best-card:hover {
+  transform: translateY(-5px);
+}
+
+.best-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+}
+
+.best-card h4 {
+  margin: 10px 0 5px;
+  font-size: 14px;
+}
+
+.price {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.best-card button {
+  padding: 8px 12px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.view-all {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.view-all button {
+  padding: 8px 18px;
+  border: none;
+  background: black;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.caro{
+  width:100%;
+  display:block;
+  height:500px;
+  
+}
+.carousel-indicators .active {
+  background-color: #000000; 
+}
+.category-grid{
+  display:flex;
+  gap:20px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; 
+ 
+}
+.category-img{
+  width:250px;
+  height:350px;
+  border-radius: 20px;
+  border:1px solid gold;
+}
+.category{
+  background:#f7f7f7;
+  padding: 60px 5%;
+}
+.category-card{
+  padding:20px;
+  position:relative;
+}
+.category-btn{
+  position:absolute;
+  top: 80%;
+  left: 15%; 
+  border-radius: 20px;
+  width:200px;
+  border:none;
+  padding: 7px;
+  background-color: #000000;
+  color: white;
+  font-size: bold;
+  border: gold 1px solid;
+}
+.home-cart{
+  background-color: orange;
+    color: black;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*freshdrops*/
+.freshdrops{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.freshdrops h2 {
+  font-size: 26px;
+  border-bottom: 2px solid black;
+}
+
+.freshdrops h2 span{
+  color:#ff4d00;
+}
+
+.fb-tabs span{
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 15px;
+}
+.Blogs-img{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.Blogs-img img{
+  width:300px;
+  border-radius: 10px;
+  height: 148px;
+}
+
+
+.collection-container{
+  padding: 60px 5%;
+  background: #f4f4f4;
+}
+
+
+
+
+
+
+

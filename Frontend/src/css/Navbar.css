@@ -1,0 +1,119 @@
+.navbar {
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 40px;
+  align-items: center;
+  position: relative;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+  position:relative;
+  cursor: pointer;
+  color:white;
+}
+
+.icons span {
+  margin-left: 15px;
+  cursor: pointer;
+}
+p{
+    color:white;
+} 
+img{
+  cursor:pointer;
+}
+
+.dropdown-grid {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  background: #fff;
+  width:1000px;
+  padding: 25px;
+  border-radius: 8px;
+  display: none;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 30px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  z-index: 100;
+}
+
+
+.nav-links p:first-child:hover + .dropdown-grid {
+  display: grid;
+}
+
+
+.dropdown-grid:hover {
+  display: grid;
+}
+
+
+.dropdown-grid div {
+  text-align: center;
+}
+
+.dropdown-grid img {
+  width: 120%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.dropdown-grid p {
+  font-size: 12px;
+  margin-top: 4px;
+}
+.title{
+  color:black;
+}
+
+/*search*/
+.search-dropdown {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  background: linear-gradient(white,rgb(237, 204, 19));
+  padding: 15px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.search-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #f4f1f1;
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  border:2px solid black;
+  
+}
+
+.search-card:hover {
+  background: #c9c77d;
+}
+
+.search-card img {
+  width: 60px;
+  height: auto;
+  height:100%;
+}
+
+.search-card p {
+  font-weight: bold;
+  color:black;
+}

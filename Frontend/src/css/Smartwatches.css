@@ -1,0 +1,139 @@
+.title{
+    justify-content: center;
+    display:flex;
+    font-size: 28px;
+    margin: 40px 0;
+    align-items: center;
+    color:black;
+}
+.watch-container{
+    background-color: #f7f7f7;
+}
+.grid-container{
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 20px;
+    padding: 0 5%;
+}
+.best-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+.grid-container label{
+    font-size: 15px;
+    color:black;
+    display: block;
+}
+.price{
+    color:black;
+}
+.line{
+    height:5px;
+    border-top: 1px solid black;
+  width: 100%;
+  margin: 10px 0; 
+}
+.search-input{
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.search-container{
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 5%;
+    margin-bottom: 20px;
+    gap:10px;
+}
+.indivual-product{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  transition:0.3s ease;
+  text-align:center;
+}
+.indivual-product:hover{
+  transform: translateY(-5px);
+}
+.indivual-product img{
+  width:100%;
+  height:180px;
+  object-fit:contain;
+}
+.cart-btn{
+    background-color: orange;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.gift-scroller {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.gift-scroller::-webkit-scrollbar {
+  display: none; 
+}
+.gift-card {
+  min-width: 220px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.gift-card:hover {
+  transform: translateY(-5px);
+}
+
+.gift-card img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+}
+
+.gift-card h3 {
+  font-size: 16px;
+  margin: 10px 0 5px;
+}
+
+.gift-card p {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.arrows {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow-left {
+  left: 10px;
+}
+
+.arrow-right {
+  right: 10px;
+}
