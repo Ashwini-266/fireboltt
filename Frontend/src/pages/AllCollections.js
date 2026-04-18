@@ -11,7 +11,7 @@ function AllCollections() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/products");
+        const response = await axios.get("https://fireboltt-backend.onrender.com/products");
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -24,7 +24,7 @@ function AllCollections() {
   //add to cart
   const addProduct = async (product) => {
     try {
-      await fetch("http://localhost:3001/cart", {
+      await fetch("https://fireboltt-backend.onrender.com/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
