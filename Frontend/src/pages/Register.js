@@ -22,7 +22,7 @@ function Register() {
       return;
     }
     try {
-      await axios.post("http://localhost:3001/reqOTP", { email });
+      await axios.post("https://fireboltt-backend.onrender.com/reqOTP", { email });
       alert("OTP sent to your email");
       setOtpEnabled(true);
     } catch (error) {
@@ -37,7 +37,7 @@ function Register() {
       return;
     }
     try {
-      await axios.post("http://localhost:3001/verifyOTP", {
+      await axios.post("https://fireboltt-backend.onrender.com/verifyOTP", {
         email,
         otp,
       });
@@ -56,7 +56,7 @@ function Register() {
       return;
     }
     try {
-      await axios.post("http://localhost:3001/register", {
+      await axios.post("https://fireboltt-backend.onrender.com/register", {
         firstname,
         lastname,
         email,
