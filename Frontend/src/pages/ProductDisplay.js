@@ -19,7 +19,7 @@ function ProductDisplay() {
     });
 
     useEffect(() => {
-      axios.get(`http://localhost:3001/products/${id}`)
+      axios.get(`https://fireboltt-backend.onrender.com/products/${id}`)
       .then(res=> {
         setProduct(res.data);
       })
@@ -44,7 +44,7 @@ function ProductDisplay() {
       const user = JSON.parse(localStorage.getItem("user"));
       if (user) {
         try {
-          await fetch("http://localhost:3001/cart", {
+          await fetch("https://fireboltt-backend.onrender.com/cart", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -81,7 +81,7 @@ function ProductDisplay() {
   return (
     <div className='container'>
         <div className='product-img'>
-            <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "500px" }}/>
+            <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "500px" }}/>
         </div>
 
         <div className="details">
