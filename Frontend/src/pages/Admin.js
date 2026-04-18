@@ -33,7 +33,7 @@ function Admin() {
   });
 
   useEffect(() => {
-    axios.get("http://localhost:3001/admin/stats")
+    axios.get("https://fireboltt-backend.onrender.com/admin/stats")
       .then(res => setStats(res.data))
       .catch(err => console.log(err));
   }, []);

@@ -280,7 +280,7 @@ function Payment() {
       if (cartItems && cartItems.length > 0) {
         for (let item of cartItems) {
           await axios.post(
-            "http://localhost:3001/orders",
+            "https://fireboltt-backend.onrender.com/orders",
             {
               userName: user.firstname,
               userId: user._id,
@@ -302,14 +302,14 @@ function Payment() {
         }
 
         await axios.delete(
-          `http://localhost:3001/cart/${user._id}`
+          `https://fireboltt-backend.onrender.com/cart/${user._id}`
         );
       }
 
       // ✅ SINGLE PRODUCT
       else if (product) {
         await axios.post(
-          "http://localhost:3001/orders",
+          "https://fireboltt-backend.onrender.com/orders",
           {
             userName: user.firstname,
             userId: user._id,
@@ -352,7 +352,7 @@ function Payment() {
         : product?.price;
 
       const res = await axios.post(
-        "http://localhost:3001/create-razorpay-order",
+        "https://fireboltt-backend.onrender.com/create-razorpay-order",
         { amount: totalAmount }
       );
 
