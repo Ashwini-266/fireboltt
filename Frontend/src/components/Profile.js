@@ -9,7 +9,7 @@ function Profile() {
 useEffect(() => {
   if (user) {
     axios
-      .get(`http://localhost:3001/orders/${user._id}`)
+      .get(`https://fireboltt-backend.onrender.com/orders/${user._id}`)
       .then(res => setOrders(res.data))
       .catch(err => console.log(err));
   }
@@ -33,7 +33,7 @@ useEffect(() => {
                 {order.products && order.products.map((item, i) => (
                     <img
                     key={i}
-                    src={`http://localhost:3001/uploads/${item.productId.imageUpload}`}
+                    src={`https://fireboltt-backend.onrender.com/uploads/${item.productId.imageUpload}`}
                     alt={item.productId.title}
                     className="order-image"
                     />
