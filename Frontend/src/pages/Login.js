@@ -38,7 +38,7 @@ function Login() {
   e.preventDefault();
 
   axios
-    .post("http://localhost:3001/login", {
+    .post("https://fireboltt-backend.onrender.com/login", {
       email,
       password,
     })
