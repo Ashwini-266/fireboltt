@@ -9,7 +9,7 @@ function Accessories() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const url = "http://localhost:3001/products/category/accessories";
+    const url = "https://fireboltt-backend.onrender.com/products/category/accessories";
     axios
     .get(url)
     .then((res) => {
@@ -23,7 +23,7 @@ function Accessories() {
   const addProduct = async (product) => {
     const user = JSON.parse(localStorage.getItem("user"));
     try {
-      await fetch("http://localhost:3001/cart", {
+      await fetch("https://fireboltt-backend.onrender.com/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
