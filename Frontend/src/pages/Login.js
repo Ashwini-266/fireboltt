@@ -13,27 +13,67 @@ function Login() {
     const location = useLocation();
 
     
-    const handleSubmit=(e)=>{
-        e.preventDefault()
-        axios.post('http://localhost:3001/login',{email,password})
-        .then(result=>{
-          console.log(result)
-          if(result.data.status==="success"){
-            localStorage.setItem("role",result.data.role);
-            localStorage.setItem("user", JSON.stringify(result.data.user));
-            if (result.data.role === "admin") {
-              navigate("/admin");
-            } else if (location.state?.from === "/payment") {
-              navigate("/payment", {
-                state: location.state?.paymentData,
-              });
-            } else {
-              navigate("/");
-            }
-          }
-        })
-      .catch(err=>console.log(err))
-    }
+    // const handleSubmit=(e)=>{
+    //     e.preventDefault()
+    //     axios.post('https://fireboltt-backend.onrender.com/login',{email,password})
+    //     .then(result=>{
+    //       console.log(result)
+    //       if(result.data.status==="success"){
+    //         localStorage.setItem("role",result.data.role);
+    //         localStorage.setItem("user", JSON.stringify(result.data.user));
+    //         if (result.data.role === "admin") {
+    //           navigate("/admin");
+    //         } else if (location.state?.from === "/payment") {
+    //           navigate("/payment", {
+    //             state: location.state?.paymentData,
+    //           });
+    //         } else {
+    //           navigate("/");
+    //         }
+    //       }
+    //     })
+    //   .catch(err=>console.log(err))
+    // }
+    const handleSubmit = (e) => {
+  e.preventDefault();
+
+  axios
+    .post("https://fireboltt-backend.onrender.com/login", {
+      email,
+      password,
+    })
+    .then((result) => {
+      console.log("Login response:", result.data);
+
+      // Check if user exists in the response
+      if (result.data.user) {
+        // Store user and role in localStorage
+        localStorage.setItem("role", result.data.role);
+        localStorage.setItem("user", JSON.stringify(result.data.user));
+
+        alert("Login successful!");
+
+        // Redirect based on role or previous page
+        if (result.data.role === "admin") {
+          navigate("/admin");
+        } else if (location.state?.from === "/payment") {
+          navigate("/payment", {
+            state: location.state?.paymentData,
+          });
+        } else {
+          navigate("/");
+        }
+      } else {
+        alert("Invalid email or password");
+      }
+    })
+    .catch((err) => {
+      console.error("Login error:", err);
+      alert(
+        err.response?.data?.message || "Something went wrong. Please try again."
+      );
+    });
+};
 
 
   return (

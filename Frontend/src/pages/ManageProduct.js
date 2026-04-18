@@ -16,7 +16,7 @@ function ManageProduct(){
         window.confirm("Are you sure you want to delete this product?")
         {
         try {
-        await axios.delete(`http://localhost:3001/products/${id}`);
+        await axios.delete(`https://fireboltt-backend.onrender.com/products/${id}`);
         alert("Product deleted successfully");
             setProducts(products.filter(product => product._id !== id));
         } catch (error) {
@@ -33,7 +33,7 @@ function ManageProduct(){
         const fetchProducts = async () => {
             try {
             const res = await axios.get(
-                `http://localhost:3001/products?search=${query || ""}`
+                `https://fireboltt-backend.onrender.com/products?search=${query || ""}`
             );
             setProducts(res.data);
             } catch (error) {
@@ -82,7 +82,7 @@ function ManageProduct(){
                     products.map(product => (
                         <tr key={product._id}>
                             <td>
-                                <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "100px" }}/>
+                                <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "100px" }}/>
                             </td>
                             <td>{product.title}</td>
                             <td>{product.category}</td>

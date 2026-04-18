@@ -9,7 +9,7 @@ function Accessories() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const url = "http://localhost:3001/products/category/accessories";
+    const url = "https://fireboltt-backend.onrender.com/products/category/accessories";
     axios
     .get(url)
     .then((res) => {
@@ -23,7 +23,7 @@ function Accessories() {
   const addProduct = async (product) => {
     const user = JSON.parse(localStorage.getItem("user"));
     try {
-      await fetch("http://localhost:3001/cart", {
+      await fetch("https://fireboltt-backend.onrender.com/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +47,7 @@ function Accessories() {
         products.map((product) => (
             <>
             <div key={product._id} className="product-card">
-                <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title} className="product-image" style={{width:"400px"}} />
+                <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title} className="product-image" style={{width:"400px"}} />
                 
             </div>
             <div className="product-info" style={{padding:"40px"}}>

@@ -19,8 +19,8 @@ function Home() {
     const fetchdata = async () => {
       try {
         const url = search
-          ? `http://localhost:3001/products?search=${search}`
-          : `http://localhost:3001/products`;
+          ? `https://fireboltt-backend.onrender.com/products?search=${search}`
+          : `https://fireboltt-backend.onrender.com/products`;
         const response = await axios.get(url);
         setProducts(response.data);
       } catch (error) {
@@ -36,7 +36,7 @@ function Home() {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       try {
-        await fetch("http://localhost:3001/cart", {
+        await fetch("https://fireboltt-backend.onrender.com/cart", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -147,7 +147,7 @@ function Home() {
           products.map((product) => (
             <div className="indivual-product" key={product._id} onClick={()=>navigate(`/ProductDisplay/${product._id}`)}>
               
-              <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "200px" }}/>
+              <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "200px" }}/>
               <h3>{product.title}</h3>
               <p>Price: {product.price}</p>
               <p>Rating: {product.rating}</p>

@@ -11,7 +11,7 @@ function AllCollections() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/products");
+        const response = await axios.get("https://fireboltt-backend.onrender.com/products");
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -24,7 +24,7 @@ function AllCollections() {
   //add to cart
   const addProduct = async (product) => {
     try {
-      await fetch("http://localhost:3001/cart", {
+      await fetch("https://fireboltt-backend.onrender.com/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +49,7 @@ function AllCollections() {
       products.map((product) => (
       <div className="indivual-product" key={product._id} onClick={()=>navigate(`/ProductDisplay/${product._id}`)}>
         
-        <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "200px" }}/>
+        <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "200px" }}/>
         <h3>{product.title}</h3>
         <p>Price: {product.price}</p>
         <p>Rating: {product.rating}</p>

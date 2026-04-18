@@ -31,7 +31,7 @@ function Smartwatches(){
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const query = params.get("search");
-    let url = "http://localhost:3001/products/category/smartwatch";
+    let url = "https://fireboltt-backend.onrender.com/products/category/smartwatch";
     const queryParams = [];
     if (query) queryParams.push(`search=${query}`);
     if (price) queryParams.push(`price=${price}`);
@@ -51,7 +51,7 @@ function Smartwatches(){
   const addProduct = async (product) => {
       const user = JSON.parse(localStorage.getItem("user"));
     try {
-      await fetch("http://localhost:3001/cart", {
+      await fetch("https://fireboltt-backend.onrender.com/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
