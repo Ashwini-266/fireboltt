@@ -15,12 +15,10 @@ useEffect(() => {
   }
 }, [user]);
 
-
-
-
   return (
     <div className='profile-container'>
       <h2>My Profile</h2>
+      <h2>cccc</h2>
       
       <h3>Order Details</h3>
       <div className='order-details'>
