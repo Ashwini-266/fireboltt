@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "../css/Payment.css";
@@ -25,71 +25,90 @@ function Payment() {
   };
 
   //placing order
-  const orderPlace = async (paymentId = null) => {
+const orderPlace = async (paymentId = null) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  if (!paymentMethod) {
-    alert("Please select payment method");
+
+  const fullAddress = `${formData?.address}, ${formData?.city},
+  ${formData?.state} - ${formData?.pincode}`;
+  if (paymentMethod === "UPI") {
+  if (!upiId) {
+    alert("Please enter UPI ID");
     return;
   }
-  if (paymentMethod === "UPI") {
-    if (!upiId) {
-      alert("Please enter your UPI ID");
-      return;
-    }
-    if (!validateUpiId(upiId)) {
-      alert("Please enter a valid UPI ID (e.g., name@bank)");
-      return;
-    }
+  if (!validateUpiId(upiId)) {
+    alert("Invalid UPI ID");
+    return;
   }
-  const fullAddress = `${formData?.address}, ${formData?.city},
-    ${formData?.state} - ${formData?.pincode}`;
+}
+
   try {
-    setLoading(true); 
+    setLoading(true);
     if (cartItems && cartItems.length > 0) {
-      for (let item of cartItems) {
-        await axios.post("http://localhost:3001/orders", {
-          userName: user.firstname,
-          email: user.email,
-          phone: Number(formData?.phone),
-          productId: item.productId._id,
-          quantity: item.quantity,
-          price: item.productId.price * item.quantity,
-          address: fullAddress,
-          paymentMethod,
-          upiId: paymentMethod === "UPI" ? upiId : null,
-          paymentId: paymentMethod === "CARD" ? paymentId : null,
-          paymentStatus:
-            paymentMethod === "COD" ? "PENDING" : "PAID",
-        });
-      }
-      await axios.delete(`http://localhost:3001/cart/${user._id}`);
-    } else if (product) {
+      const products = cartItems.map((item) => ({
+        productId: item.productId._id,
+        title: item.productId.title,
+        quantity: item.quantity,
+        price: item.productId.price,
+      }));
+
+      const totalAmount = cartItems.reduce(
+        (sum, item) =>
+          sum + item.productId.price * item.quantity,
+        0
+      );
+
       await axios.post("http://localhost:3001/orders", {
         userName: user.firstname,
+        userId: user._id,
         email: user.email,
         phone: Number(formData?.phone),
-        productId: product._id,
-        quantity: product.quantity || 1,
-        price: product.price * (product.quantity || 1),
+
+        products,
+        totalAmount,
+
         address: fullAddress,
         paymentMethod,
         upiId: paymentMethod === "UPI" ? upiId : null,
-        paymentId: paymentId || "N/A",
+        paymentId: paymentMethod === "CARD" ? paymentId : null,
+        paymentStatus:
+          paymentMethod === "COD" ? "PENDING" : "PAID",
+      });
+
+      await axios.delete(`http://localhost:3001/cart/${user._id}`);
+    }
+    else if (product) {
+      await axios.post("http://localhost:3001/orders", {
+        userName: user.firstname,
+        userId: user._id,
+        email: user.email,
+        phone: Number(formData?.phone),
+
+        products: [
+          {
+            productId: product._id,
+            title: product.title,
+            quantity: product.quantity || 1,
+            price: product.price,
+          },
+        ],
+        totalAmount: product.price * (product.quantity || 1),
+        address: fullAddress,
+        paymentMethod,
+        upiId: paymentMethod === "UPI" ? upiId : null,
+        paymentId: paymentId || null,
         paymentStatus:
           paymentMethod === "COD" ? "PENDING" : "PAID",
       });
     }
-
     alert("Order placed successfully!");
     navigate("/");
   } catch (err) {
     console.error(err);
     alert("Failed to place order");
   } finally {
-    setLoading(false); 
+    setLoading(false);
   }
 };
-
   // Razorpay payment
   const handleRazorpayPayment = async () => {
   try {

@@ -22,7 +22,7 @@ import Checkout from "./components/Checkout";
 import AdminRoute from "./components/AdminRoute";
 import AllCollections from "./pages/AllCollections";
 import Accessories from "./pages/Accessories";
-
+import Profile from "./components/Profile";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Layout() {
@@ -56,6 +56,7 @@ function Layout() {
         <Route path="/checkout/:id" element={<Checkout />} />
         <Route path="/allcollections" element={<AllCollections />}/>
         <Route path="/accessories" element={<Accessories />}/>
+        <Route path="/profile" element={<Profile />} />
         
       </Routes>
 

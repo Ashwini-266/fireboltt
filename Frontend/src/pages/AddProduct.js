@@ -71,6 +71,11 @@ function Addproduct() {
               <label>Rating</label><br />
               <input style={{ marginBottom: "10px",width:"80%" }} type="number" placeholder="Enter rating" value={rating} onChange={(e) => setRating(e.target.value)} required/>
             </div>
+            <div style={{ marginBottom: "10px" }}>
+              <label>GST</label><br />
+              <input style={{ marginBottom: "10px",width:"80%" }} type="number" placeholder="Enter rating" value={rating} onChange={(e) => setRating(e.target.value)} required/>
+            </div>
+
             <button type="submit">Add Product</button>
           </form>
         </div>

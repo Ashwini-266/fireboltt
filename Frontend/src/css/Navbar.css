@@ -117,3 +117,33 @@ img{
   font-weight: bold;
   color:black;
 }
+
+
+.profile-container {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  top: 45px;   
+  right: 0;
+
+  background: white;
+  color: black;
+  border-radius: 8px;
+  padding: 10px;
+  width: 150px;
+
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  z-index: 2000; 
+}
+
+.dropdown p {
+  color: black;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.dropdown p:hover {
+  color: red;
+}

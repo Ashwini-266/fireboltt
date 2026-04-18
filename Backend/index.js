@@ -29,9 +29,8 @@ const upload = multer({ storage: storage })
 const app=express()
 app.use(express.json())
 app.use(cors())
-// mongoose.connect("mongodb://localhost:27017/user");
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URL)
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -40,7 +39,6 @@ app.use("/uploads", express.static("uploads"));
 
 
 const Razorpay = require("razorpay");
-
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
@@ -328,7 +326,7 @@ app.post("/orders", async (req, res) => {
 // get all orders
 app.get("/orders", async (req, res) => {
   try {
-    const orders = await OrderModel.find().populate("productId");
+    const orders = await OrderModel.find().populate("products.productId");
     res.json(orders);
   } catch (err) {
     res.status(500).json(err);
@@ -392,6 +390,18 @@ app.delete("/orders/:id", async (req, res) => {
   }
 });
 
+app.get("/orders/:userId", async (req, res) => {
+  try {
+    const orders = await OrderModel
+      .find({ userId: req.params.userId })   
+      .populate("products.productId");
+
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //empty cart once order placed
 app.delete("/cart/:userId", async (req, res) => {
   try {
@@ -444,6 +454,40 @@ app.post("/create-razorpay-order", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+app.post("/address", async (req, res) => {
+  try {
+    const newAddress = new Address(req.body);
+    const savedAddress = await newAddress.save();
+    res.json(savedAddress);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/admin/stats", async (req, res) => {
+  try {
+    const orders = await OrderModel.find();
+    let totalOrders = orders.length;
+    let totalSales = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+    const salesByDate = {};
+    orders.forEach(order => {
+      const date = new Date(order.createdAt).toLocaleDateString();
+      if (!salesByDate[date]) {
+        salesByDate[date] = 0;
+      }
+      salesByDate[date] += order.totalAmount;
+    });
+    res.json({
+      totalOrders,
+      totalSales,
+      salesByDate
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 
 const PORT = process.env.PORT || 3001;
 

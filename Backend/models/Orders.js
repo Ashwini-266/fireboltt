@@ -4,36 +4,43 @@ const OrderSchema = new mongoose.Schema(
   {
     userName: String,
     email: String,
-    phone: {
-      type: Number,
-      required: true,
-    },
-    productId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "products",
-    },
-    title: String,
-    price: Number,
-    quantity: Number,
+    phone: Number,
+    userId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "users",
+  required: true,
+},
+
+    products: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "products",
+        },
+        title: String,
+        quantity: Number,
+        price: Number,
+      },
+    ],
+
+    totalAmount: Number,
+
     address: String,
+
     paymentMethod: {
       type: String,
       enum: ["COD", "UPI", "CARD"],
-      required: true,
     },
-    upiId: {
-      type: String,
-      default: null,
-    },
-    paymentId: {
-      type: String,
-      default: null,
-    },
+
+    upiId: String,
+    paymentId: String,
+
     paymentStatus: {
       type: String,
       enum: ["PENDING", "PAID"],
       default: "PENDING",
     },
+
     status: {
       type: String,
       enum: ["Pending", "Shipped", "Delivered"],

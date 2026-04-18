@@ -7,6 +7,7 @@ function Navbar() {
   const location = useLocation(); 
   const [search, setSearch] = useState("");
   const [user, setUser] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -60,7 +61,15 @@ function Navbar() {
         <input type="search" className="search" placeholder="search" value={search} onChange={handleSearch}/>
         <span onClick={() => navigate("/cart")}>🛒</span>
         {user ? (
-          <span className="login-icon" onClick={handleLogout}>Logout</span>
+          <>
+          <span className="avatar-icon" onClick={() => setShowMenu(!showMenu)}>👤</span>
+            {showMenu && (
+            <div className="dropdown">
+              <p onClick={() => {navigate("/profile"); setShowMenu(false);}}>Orders History</p>
+              <p onClick={() => {handleLogout();setShowMenu(false);}}>Logout</p>
+            </div>
+          )}        
+          </>
         ) : (
           <span className="login-icon" onClick={() => navigate("/login")} title="Login">🔥</span>
         )}
