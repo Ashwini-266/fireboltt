@@ -31,7 +31,7 @@ function Smartwatches(){
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const query = params.get("search");
-    let url = "http://localhost:3001/products/category/smartwatch";
+    let url = "https://fireboltt-backend.onrender.com/products/category/smartwatch";
     const queryParams = [];
     if (query) queryParams.push(`search=${query}`);
     if (price) queryParams.push(`price=${price}`);
@@ -51,7 +51,7 @@ function Smartwatches(){
   const addProduct = async (product) => {
       const user = JSON.parse(localStorage.getItem("user"));
     try {
-      await fetch("http://localhost:3001/cart", {
+      await fetch("https://fireboltt-backend.onrender.com/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +115,7 @@ function Smartwatches(){
                     {
                     products.map((product) => (
                       <div key={product._id} className="indivual-product"  onClick={()=>navigate(`/ProductDisplay/${product._id}`)} >
-                        <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "200px" }}/>
+                        <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "200px" }}/>
                         <h3>{product.title}</h3>
                         <p>Price: {product.price}</p>
                         <p>Rating: {product.rating}</p>
