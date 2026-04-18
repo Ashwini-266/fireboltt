@@ -15,7 +15,7 @@ function Login() {
     
     // const handleSubmit=(e)=>{
     //     e.preventDefault()
-    //     axios.post('https://fireboltt-backend.onrender.com/login',{email,password})
+    //     axios.post('http://localhost:3001/login',{email,password})
     //     .then(result=>{
     //       console.log(result)
     //       if(result.data.status==="success"){
@@ -38,7 +38,7 @@ function Login() {
   e.preventDefault();
 
   axios
-    .post("https://fireboltt-backend.onrender.com/login", {
+    .post("http://localhost:3001/login", {
       email,
       password,
     })

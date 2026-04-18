@@ -16,7 +16,7 @@ function SmartGlasses(){
     useEffect(() => {
       const params = new URLSearchParams(location.search);
       const query = params.get("search");
-      const url = "https://fireboltt-backend.onrender.com/products/category/smartglasses";
+      const url = "http://localhost:3001/products/category/smartglasses";
       const finalUrl = query ? `${url}?search=${query}` : url;
       axios
         .get(finalUrl)
@@ -47,7 +47,7 @@ function SmartGlasses(){
   const addProduct = async (product) => {
       const user = JSON.parse(localStorage.getItem("user"));
     try {
-      await fetch("https://fireboltt-backend.onrender.com/cart", {
+      await fetch("http://localhost:3001/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ function SmartGlasses(){
                 {
                 products.map((product) => (
                     <div key={product._id} className="indivual-product"  onClick={()=>navigate(`/ProductDisplay/${product._id}`)} >
-                    <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "200px" }}/>
+                    <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "200px" }}/>
                     <h3>{product.title}</h3>
                     <p>Price: {product.price}</p>
                     <p>Rating: {product.rating}</p>
