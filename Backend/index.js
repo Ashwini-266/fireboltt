@@ -30,7 +30,7 @@ const app=express()
 app.use(express.json())
 app.use(cors())
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => console.error("MongoDB connection error:", err));
 

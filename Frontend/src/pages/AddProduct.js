@@ -23,7 +23,7 @@ function Addproduct() {
     formData.append('price', price);
     formData.append('quantity', quantity);
     formData.append('rating', rating);
-    axios.post('https://fireboltt-backend.onrender.com/products', formData)
+    axios.post('http://localhost:3001/products', formData)
     alert("Product added successfully");
       navigate("/admin");
   };
