@@ -31,7 +31,7 @@ app.use(express.json())
 app.use(cors())
 // mongoose.connect("mongodb://localhost:27017/user");
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URL)
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
