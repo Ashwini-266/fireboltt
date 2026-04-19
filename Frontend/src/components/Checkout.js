@@ -74,7 +74,7 @@ function Checkout() {
             ) : (
               product && (
                 <div className="product-card">
-                  <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title}/>
+                  <img src={product.imageUpload} alt={product.title} />
                   <div className="product-info">
                     <p className="title">{product.title}</p>
                     <p>Price: ₹{product.price} × {product.quantity || 1}</p>

@@ -81,7 +81,7 @@ function ProductDisplay() {
   return (
     <div className='container'>
         <div className='product-img'>
-            <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "500px" }}/>
+            <img src={product.imageUpload} alt={product.title} style={{ width: "500px" }}/>
         </div>
 
         <div className="details">

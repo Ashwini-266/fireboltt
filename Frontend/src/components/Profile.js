@@ -33,7 +33,7 @@ useEffect(() => {
                 {order.products && order.products.map((item, i) => (
                     <img
                     key={i}
-                    src={`http://localhost:3001/uploads/${item.productId.imageUpload}`}
+                    src={product.imageUpload}
                     alt={item.productId.title}
                     className="order-image"
                     />

@@ -82,7 +82,7 @@ function ManageProduct(){
                     products.map(product => (
                         <tr key={product._id}>
                             <td>
-                                <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "100px" }}/>
+                                <img src={product.imageUpload} alt={product.title} style={{ width: "100px" }}/>
                             </td>
                             <td>{product.title}</td>
                             <td>{product.category}</td>

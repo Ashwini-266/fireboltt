@@ -115,7 +115,7 @@ function Smartwatches(){
                     {
                     products.map((product) => (
                       <div key={product._id} className="indivual-product"  onClick={()=>navigate(`/ProductDisplay/${product._id}`)} >
-                        <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "200px" }}/>
+                        <img src={product.imageUpload} alt={product.title} style={{ width: "200px" }}/>
                         <h3>{product.title}</h3>
                         <p>Price: {product.price}</p>
                         <p>Rating: {product.rating}</p>

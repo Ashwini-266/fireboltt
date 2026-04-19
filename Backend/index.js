@@ -12,19 +12,39 @@ const OrderModel = require("./models/Orders");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-const fs = require("fs");
-const path = require("path");
+// const fs = require("fs");
+// const path = require("path");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads")
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./uploads")
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + "-" + file.originalname)
+//   }
+// })
+
+// const upload = multer({ storage: storage })
+
+const { v2: cloudinary } = require("cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+// Cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Storage
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "products",
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname)
-  }
-})
+});
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage });
 
 const app=express()
 app.use(express.json())
@@ -34,7 +54,7 @@ mongoose
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 
 
 
@@ -132,7 +152,7 @@ app.post('/products', upload.single("image"), (req,res)=>{
         quantity: req.body.quantity,
         description:req.body.description,
         rating: req.body.rating,
-        imageUpload: req.file.filename,
+        imageUpload: req.file.path,
         category: req.body.category
     };
     
@@ -188,9 +208,12 @@ app.put('/products/:id', upload.single("image"), async(req,res)=>
                 category,
                 quantity
             };
+            // if(req.file){
+            //     updateData.imageUpload = req.file.filename;
+            // }
             if(req.file){
-                updateData.imageUpload = req.file.filename;
-            }
+  updateData.imageUpload = req.file.path;
+}
             const updated=await ProductModel.findByIdAndUpdate(
                 req.params.id,
                 updateData,
@@ -210,10 +233,10 @@ app.delete('/products/:id', async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-    const imagePath = path.join(__dirname, "uploads", product.imageUpload);
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath); 
-    }
+    // const imagePath = path.join(__dirname, "uploads", product.imageUpload);
+    // if (fs.existsSync(imagePath)) {
+    //   fs.unlinkSync(imagePath); 
+    // }
     await ProductModel.findByIdAndDelete(req.params.id);
     res.json("Product and image deleted successfully");
   } catch (err) {
