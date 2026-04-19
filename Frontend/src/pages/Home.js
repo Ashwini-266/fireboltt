@@ -148,9 +148,8 @@ function Home() {
             <div className="indivual-product" key={product._id} onClick={()=>navigate(`/ProductDisplay/${product._id}`)}>
               
 
-              <img src={product.imageUpload} alt={product.title} style={{ width: "200px" }}/>
+              <img src={product.imageUpload} alt={product.title} style={{ width: "200px" }} />
 
-              <img src={`https://fireboltt-backend.onrender.com/uploads/${product.imageUpload}`} alt={product.title} style={{ width: "200px" }}/>
 
               <h3>{product.title}</h3>
               <p>Price: {product.price}</p>
