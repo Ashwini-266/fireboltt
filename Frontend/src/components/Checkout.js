@@ -23,9 +23,27 @@ function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const totalPrice = cartItems? cartItems.reduce((sum, item) => sum + item.productId.price * item.quantity,
-      0
-    ): (product?.price || 0) * (product?.quantity || 1);
+  const totalPrice = cartItems
+  ? cartItems.reduce((sum, item) => {
+      const price = item.productId.price;
+      const qty = item.quantity;
+      const gst = item.productId.gst || 0;
+
+      const base = price * qty;
+      const gstAmount = (base * gst) / 100;
+
+      return sum + base + gstAmount;
+    }, 0)
+  : (() => {
+      const price = product?.price || 0;
+      const qty = product?.quantity || 1;
+      const gst = product?.gst || 0;
+
+      const base = price * qty;
+      const gstAmount = (base * gst) / 100;
+
+      return base + gstAmount;
+    })();
 
   const continueToPayment = () => {
     if (!form.name || !form.phone || !form.address) {
@@ -71,9 +89,10 @@ function Checkout() {
 
                   <div className="product-info">
                     <p className="title">{item.productId.title}</p>
-                    <p>
-                      Price: ₹{item.productId.price} × {item.quantity}
-                    </p> 
+                    <p>Price: ₹{item.productId.price * item.quantity}</p>
+                    <p>GST ({item.productId.gst}%): ₹{
+                      (item.productId.price * item.quantity * item.productId.gst) / 100
+                    }</p>
                   </div>                 
                 </div>
               ))
@@ -83,7 +102,10 @@ function Checkout() {
                   <img src={product.imageUpload} alt={product.title} />
                   <div className="product-info">
                     <p className="title">{product.title}</p>
-                    <p>Price: ₹{product.price} × {product.quantity || 1}</p>
+                    <p>Price: ₹{product.price * product.quantity}</p>
+                    <p>GST ({product.gst}%): ₹{
+                      (product.price * product.quantity * product.gst) / 100
+                    }</p>
                   </div>
                 </div>
               )

@@ -142,7 +142,7 @@ app.post('/products', upload.single("image"), (req,res)=>{
         rating: req.body.rating,
         imageUpload: req.file.path,
         category: req.body.category,
-        gst: req.body.gst
+        gst: Number(req.body.gst)
 
     };
     
@@ -197,7 +197,7 @@ app.put('/products/:id', upload.single("image"), async(req,res)=>
                 rating,
                 category,
                 quantity,
-                gst
+                gst: Number(gst)
             };
             if(req.file){
   updateData.imageUpload = req.file.path;
@@ -451,18 +451,40 @@ app.get("/cart/:userId", async (req, res) => {
 });
 
 //create razorpay order
+// app.post("/create-razorpay-order", async (req, res) => {
+//   try {
+//     const { amount } = req.body;
+
+//     const order = await razorpay.orders.create({
+//       amount: amount * 100,
+//       currency: "INR",
+//     });
+
+//     res.json(order);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
 app.post("/create-razorpay-order", async (req, res) => {
   try {
     const { amount } = req.body;
 
-    const order = await razorpay.orders.create({
-      amount: amount * 100,
+    const options = {
+      amount: Math.round(amount * 100), // ✅ FIX (very important)
       currency: "INR",
-    });
+      receipt: "order_" + Date.now(),   // ✅ good practice
+    };
+
+    const order = await razorpay.orders.create(options);
 
     res.json(order);
   } catch (err) {
-    res.status(500).json(err);
+    console.error("Razorpay Error:", err); // ✅ IMPORTANT for debugging
+    res.status(500).json({
+      message: "Razorpay order creation failed",
+      error: err.message,
+    });
   }
 });
 

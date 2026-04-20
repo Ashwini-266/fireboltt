@@ -20,11 +20,15 @@ const OrderSchema = new mongoose.Schema(
         title: String,
         quantity: Number,
         price: Number,
+        gst:Number,
+        gstAmount:Number
       },
     ],
 
+    subtotal: Number,
+    totalGST: Number, 
     totalAmount: Number,
-
+     
     address: String,
 
     paymentMethod: {
