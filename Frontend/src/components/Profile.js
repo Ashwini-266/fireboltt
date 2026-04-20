@@ -34,7 +34,7 @@ useEffect(() => {
                     <img
                     key={i}
 
-                    src={product.imageUpload}
+                    src={item.productId.imageUpload}
 
                     alt={item.productId.title}
                     className="order-image"

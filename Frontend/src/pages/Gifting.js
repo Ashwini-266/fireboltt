@@ -59,7 +59,7 @@ function Gifting() {
           {
           products.map((product) => (
             <div key={product._id} className="gift-card" onClick={() => navigate(`/ProductDisplay/${product._id}`)}>
-              <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title}/>
+              <img src={product.imageUpload} alt={product.title}/>
               <h3>{product.title}</h3>
               <p>₹{product.price}</p>
               <button className="cart-btn" onClick={(e) => {

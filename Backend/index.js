@@ -12,19 +12,7 @@ const OrderModel = require("./models/Orders");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// const fs = require("fs");
-// const path = require("path");
 
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "./uploads")
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, Date.now() + "-" + file.originalname)
-//   }
-// })
-
-// const upload = multer({ storage: storage })
 
 const { v2: cloudinary } = require("cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
@@ -54,7 +42,6 @@ mongoose
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// app.use("/uploads", express.static("uploads"));
 
 
 
@@ -146,6 +133,7 @@ app.post("/verifyOTP", (req, res) => {
 
 //adding product
 app.post('/products', upload.single("image"), (req,res)=>{
+  console.log("BODY:", req.body);
     const productDetail = {
         title: req.body.title,
         price: req.body.price,
@@ -153,7 +141,9 @@ app.post('/products', upload.single("image"), (req,res)=>{
         description:req.body.description,
         rating: req.body.rating,
         imageUpload: req.file.path,
-        category: req.body.category
+        category: req.body.category,
+        gst: req.body.gst
+
     };
     
     ProductModel.create(productDetail)
@@ -206,11 +196,9 @@ app.put('/products/:id', upload.single("image"), async(req,res)=>
                 description,
                 rating,
                 category,
-                quantity
+                quantity,
+                gst
             };
-            // if(req.file){
-            //     updateData.imageUpload = req.file.filename;
-            // }
             if(req.file){
   updateData.imageUpload = req.file.path;
 }

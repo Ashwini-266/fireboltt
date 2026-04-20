@@ -8,6 +8,7 @@ const ProductSchema=new mongoos.Schema({
     price:Number,
     quantity:Number,
     rating:Number,
+    gst:Number,
 });
 
 module.exports=mongoos.model("products",ProductSchema);

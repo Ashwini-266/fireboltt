@@ -12,6 +12,7 @@ function Addproduct() {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [rating, setRating] = useState("");
+  const [gst, setGst] = useState("");
     
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +24,10 @@ function Addproduct() {
     formData.append('price', price);
     formData.append('quantity', quantity);
     formData.append('rating', rating);
-    axios.post('https://fireboltt-backend.onrender.com/products', formData)
+    formData.append('gst', gst);
+    axios.post('https://fireboltt-backend.onrender.com/products',
+      formData
+    );
     alert("Product added successfully");
       navigate("/admin");
   };
@@ -73,7 +77,7 @@ function Addproduct() {
             </div>
             <div style={{ marginBottom: "10px" }}>
               <label>GST</label><br />
-              <input style={{ marginBottom: "10px",width:"80%" }} type="number" placeholder="Enter rating" value={rating} onChange={(e) => setRating(e.target.value)} required/>
+              <input style={{ marginBottom: "10px",width:"80%" }} type="number" placeholder="Enter GST" value={gst} onChange={(e) => setGst(e.target.value)} required/>
             </div>
 
             <button type="submit">Add Product</button>

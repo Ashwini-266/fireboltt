@@ -105,7 +105,7 @@ const cartItems = location.state?.cartItems;
             {cartData.map((item, index) => (
                 <div key={index} className="cart-item" style={{display:"flex",gap:"20px"}}>
                     <div className="cart-left">
-                       <img src={`https://fireboltt-backend.onrender.com/uploads/${item.productId.imageUpload}`} />
+                       <img src={item.productId.imageUpload} alt={item.productId.title} />
                     </div>
                     <div className="cart-right">
                         <p><strong>{item.productId.title}</strong></p>

@@ -63,6 +63,12 @@ function Checkout() {
             cartItems ? (
               cartItems.map((item) => (
                 <div key={item._id} className="product-card">
+                  <img
+  src={item.productId?.imageUpload}
+  alt={item.productId?.title}
+  style={{ width: "100px" }}
+/>
+
                   <div className="product-info">
                     <p className="title">{item.productId.title}</p>
                     <p>
