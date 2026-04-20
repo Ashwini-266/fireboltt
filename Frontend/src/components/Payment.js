@@ -276,35 +276,73 @@ function Payment() {
     try {
       setLoading(true);
 
-      // ✅ CART ITEMS
+      // CART ITEMS
+      // if (cartItems && cartItems.length > 0) {
+      //   for (let item of cartItems) {
+      //     await axios.post(
+      //       "https://fireboltt-backend.onrender.com/orders",
+      //       {
+      //         userName: user.firstname,
+      //         userId: user._id,
+      //         email: user.email,
+      //         phone: Number(formData?.phone),
+
+      //         productId: item.productId._id,
+      //         quantity: item.quantity,
+      //         price: item.productId.price * item.quantity,
+
+      //         address: fullAddress,
+      //         paymentMethod,
+      //         upiId: paymentMethod === "UPI" ? upiId : null,
+      //         paymentId: paymentMethod === "CARD" ? paymentId : null,
+      //         paymentStatus:
+      //           paymentMethod === "COD" ? "PENDING" : "PAID",
+      //       }
+      //     );
+      //   }
+
+      //   await axios.delete(
+      //     `https://fireboltt-backend.onrender.com/cart/${user._id}`
+      //   );
+      // }
       if (cartItems && cartItems.length > 0) {
-        for (let item of cartItems) {
-          await axios.post(
-            "https://fireboltt-backend.onrender.com/orders",
-            {
-              userName: user.firstname,
-              userId: user._id,
-              email: user.email,
-              phone: Number(formData?.phone),
 
-              productId: item.productId._id,
-              quantity: item.quantity,
-              price: item.productId.price * item.quantity,
+  const products = cartItems.map(item => ({
+    productId: item.productId._id,
+    title: item.productId.title,
+    quantity: item.quantity,
+    price: item.productId.price
+  }));
 
-              address: fullAddress,
-              paymentMethod,
-              upiId: paymentMethod === "UPI" ? upiId : null,
-              paymentId: paymentMethod === "CARD" ? paymentId : null,
-              paymentStatus:
-                paymentMethod === "COD" ? "PENDING" : "PAID",
-            }
-          );
-        }
+  const totalAmount = cartItems.reduce(
+    (sum, item) => sum + item.productId.price * item.quantity,
+    0
+  );
 
-        await axios.delete(
-          `https://fireboltt-backend.onrender.com/cart/${user._id}`
-        );
-      }
+  await axios.post(
+    "https://fireboltt-backend.onrender.com/orders",
+    {
+      userName: user.firstname,
+      userId: user._id,
+      email: user.email,
+      phone: Number(formData?.phone),
+
+      products,          // ✅ FIXED
+      totalAmount,       // ✅ FIXED
+
+      address: fullAddress,
+      paymentMethod,
+      upiId: paymentMethod === "UPI" ? upiId : null,
+      paymentId: paymentMethod === "CARD" ? paymentId : null,
+      paymentStatus:
+        paymentMethod === "COD" ? "PENDING" : "PAID",
+    }
+  );
+
+  await axios.delete(
+    `https://fireboltt-backend.onrender.com/cart/${user._id}`
+  );
+}
 
       // ✅ SINGLE PRODUCT
       else if (product) {
@@ -316,9 +354,15 @@ function Payment() {
             email: user.email,
             phone: Number(formData?.phone),
 
-            productId: product._id,
-            quantity: product.quantity || 1,
-            price: product.price,
+            products: [
+  {
+    productId: product._id,
+    title: product.title,
+    quantity: product.quantity || 1,
+    price: product.price,
+  },
+],
+totalAmount: product.price * (product.quantity || 1),
 
             address: fullAddress,
             paymentMethod,

@@ -81,9 +81,26 @@ function ManageOrder() {
             <tr key={order._id}>
               <td>{order._id}</td>
               <td>{order.userName}</td>
-              <td>{order.productId?.title}</td>
+              {/* <td>{order.productId?.title}</td>
               <td>{order.quantity}</td>
-              <td>₹{order.price}</td>
+              <td>₹{order.price}</td> */}
+              <td>
+  {order.products?.map((item, index) => (
+    <div key={index}>
+      {item.title}
+    </div>
+  ))}
+</td>
+
+<td>
+  {order.products?.map((item, index) => (
+    <div key={index}>
+      {item.quantity}
+    </div>
+  ))}
+</td>
+
+<td>₹{order.totalAmount}</td>
               <td>
                 <div>
                   <div>{order.address}</div>

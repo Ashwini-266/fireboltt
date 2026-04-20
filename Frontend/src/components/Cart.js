@@ -111,9 +111,10 @@ const cartItems = location.state?.cartItems;
                         <p><strong>{item.productId.title}</strong></p>
                         <p><strong>Price:</strong> {item.productId.price}</p>
                         <div className="quantity-box">
-                          <button onClick={() => updateQuantity(item._id, item.quantity - 1)}>-</button>
+                          <button onClick={() => updateQuantity(item._id, item.quantity - 1, index)}>-</button>
+
                           <span>{item.quantity}</span>
-                          <button onClick={() => updateQuantity(item._id, item.quantity + 1)}>+</button>
+                          <button onClick={() => updateQuantity(item._id, item.quantity + 1, index)}>+</button>
                         </div>
                         <button onClick={() => deleteProduct(item._id)}>Remove</button>                    
                     </div>
