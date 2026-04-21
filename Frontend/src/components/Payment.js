@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -58,7 +56,6 @@ const products = cartItems.map(item => {
 
   const base = price * qty;
   const gstAmount = (base * gst) / 100;
-
   subtotal += base;
   totalGST += gstAmount;
 
@@ -178,7 +175,6 @@ subtotal: base,
         "https://fireboltt-backend.onrender.com/create-razorpay-order",
         { amount: totalAmount }
       );
-
       const options = {
         key: process.env.REACT_APP_RAZORPAY_KEY_ID,
         amount: res.data.amount,

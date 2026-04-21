@@ -395,7 +395,7 @@ if (fs.existsSync(invoicePath)) {
 } else {
   console.log("❌ Invoice file NOT found");
 }
-    fs.unlinkSync(invoicePath);
+
 
     res.json(order);
 
