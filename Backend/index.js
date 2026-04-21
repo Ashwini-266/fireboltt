@@ -12,6 +12,9 @@ const OrderModel = require("./models/Orders");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+const generateInvoice = require("./utils/generateInvoice");
+const path = require("path");
+
 
 
 const { v2: cloudinary } = require("cloudinary");
@@ -41,8 +44,6 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => console.error("MongoDB connection error:", err));
-
-
 
 
 const Razorpay = require("razorpay");
@@ -307,14 +308,65 @@ const transporter = nodemailer.createTransport({
 });
 
 //create order
+// app.post("/orders", async (req, res) => {
+//   try {
+//     console.log("ORDER DATA:", req.body);
+//     const order = await OrderModel.create(req.body);
+
+//      const invoicePath = path.join(
+//       __dirname,
+//       `invoice_${order._id}.pdf`
+//     );
+
+//     await generateInvoice(order, invoicePath);
+
+//     const mailOptions = {
+//       from: "ashwiniisha31@gmail.com",
+//       to: req.body.email,
+//       subject: "Order Confirmation ",
+//       html: `
+//         <h2>Order Placed Successfully</h2>
+//         <p>Hello ${req.body.userName},</p>
+//         <p>Your order has been placed successfully.</p>
+//         <p><strong>Order ID:</strong> ${order._id}</p>
+//         <p><strong>Payment Method:</strong> ${req.body.paymentMethod}</p>
+//         <p><strong>Address:</strong> ${req.body.address}</p>
+//         <br/>
+//         <p>Thank you for shopping with us</p>
+//       `
+//     };
+//     await transporter.sendMail(mailOptions);
+//     res.json(order);
+//   } catch (err) {
+//     console.error("ORDER ERROR:", err);
+//     res.status(500).json(err);
+//   }
+// });
+
+
+
 app.post("/orders", async (req, res) => {
   try {
     console.log("ORDER DATA:", req.body);
+
     const order = await OrderModel.create(req.body);
+
+    const invoicePath = path.join(
+      __dirname,
+      `invoice_${order._id}.pdf`
+    );
+
+    // ✅ generate invoice
+    await generateInvoice(order, invoicePath);
+
+    console.log("Invoice generated at:", invoicePath);
+    console.log("Sending email with attachment:", invoicePath);
+
+    // ✅ email with attachment
     const mailOptions = {
       from: "ashwiniisha31@gmail.com",
       to: req.body.email,
-      subject: "Order Confirmation ",
+      subject: "Order Confirmation with Invoice",
       html: `
         <h2>Order Placed Successfully</h2>
         <p>Hello ${req.body.userName},</p>
@@ -324,15 +376,35 @@ app.post("/orders", async (req, res) => {
         <p><strong>Address:</strong> ${req.body.address}</p>
         <br/>
         <p>Thank you for shopping with us</p>
-      `
+      `,
+      attachments: [
+        {
+          filename: `invoice_${order._id}.pdf`,
+          path: path.resolve(invoicePath)
+        },
+      ],
     };
-    await transporter.sendMail(mailOptions);
+
+await transporter.sendMail(mailOptions);
+
+const fs = require("fs");
+
+if (fs.existsSync(invoicePath)) {
+  console.log("✅ Invoice file exists, deleting...");
+  fs.unlinkSync(invoicePath);
+} else {
+  console.log("❌ Invoice file NOT found");
+}
+    fs.unlinkSync(invoicePath);
+
     res.json(order);
+
   } catch (err) {
     console.error("ORDER ERROR:", err);
     res.status(500).json(err);
   }
 });
+
 
 // get all orders
 app.get("/orders", async (req, res) => {
