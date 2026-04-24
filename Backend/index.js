@@ -15,8 +15,6 @@ require("dotenv").config();
 const generateInvoice = require("./utils/generateInvoice");
 const path = require("path");
 
-
-
 const { v2: cloudinary } = require("cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
@@ -222,10 +220,7 @@ app.delete('/products/:id', async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-    // const imagePath = path.join(__dirname, "uploads", product.imageUpload);
-    // if (fs.existsSync(imagePath)) {
-    //   fs.unlinkSync(imagePath); 
-    // }
+    
     await ProductModel.findByIdAndDelete(req.params.id);
     res.json("Product and image deleted successfully");
   } catch (err) {
@@ -307,44 +302,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+
+
+
 //create order
-// app.post("/orders", async (req, res) => {
-//   try {
-//     console.log("ORDER DATA:", req.body);
-//     const order = await OrderModel.create(req.body);
-
-//      const invoicePath = path.join(
-//       __dirname,
-//       `invoice_${order._id}.pdf`
-//     );
-
-//     await generateInvoice(order, invoicePath);
-
-//     const mailOptions = {
-//       from: "ashwiniisha31@gmail.com",
-//       to: req.body.email,
-//       subject: "Order Confirmation ",
-//       html: `
-//         <h2>Order Placed Successfully</h2>
-//         <p>Hello ${req.body.userName},</p>
-//         <p>Your order has been placed successfully.</p>
-//         <p><strong>Order ID:</strong> ${order._id}</p>
-//         <p><strong>Payment Method:</strong> ${req.body.paymentMethod}</p>
-//         <p><strong>Address:</strong> ${req.body.address}</p>
-//         <br/>
-//         <p>Thank you for shopping with us</p>
-//       `
-//     };
-//     await transporter.sendMail(mailOptions);
-//     res.json(order);
-//   } catch (err) {
-//     console.error("ORDER ERROR:", err);
-//     res.status(500).json(err);
-//   }
-// });
-
-
-
 app.post("/orders", async (req, res) => {
   try {
     console.log("ORDER DATA:", req.body);
@@ -570,24 +531,74 @@ app.post("/address", async (req, res) => {
   }
 });
 
+// app.get("/admin/stats", async (req, res) => {
+//   try {
+//     const orders = await OrderModel.find();
+//     let totalOrders = orders.length;
+//     let totalSales = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+//     const salesByDate = {};
+//     orders.forEach(order => {
+//       const date = new Date(order.createdAt).toLocaleDateString();
+//       if (!salesByDate[date]) {
+//         salesByDate[date] = 0;
+//       }
+//       salesByDate[date] += order.totalAmount;
+//     });
+//     res.json({
+//       totalOrders,
+//       totalSales,
+//       salesByDate
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 app.get("/admin/stats", async (req, res) => {
   try {
+    // 🔹 Fetch data
     const orders = await OrderModel.find();
-    let totalOrders = orders.length;
-    let totalSales = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+    const users = await UserModel.find();
+
+    // 🔹 TOTAL COUNTS
+    const totalOrders = orders.length;
+    const totalUsers = users.length;
+
+    const totalSales = orders.reduce(
+      (sum, order) => sum + order.totalAmount,
+      0
+    );
+
+    // 🔹 SALES BY DATE
     const salesByDate = {};
     orders.forEach(order => {
       const date = new Date(order.createdAt).toLocaleDateString();
-      if (!salesByDate[date]) {
-        salesByDate[date] = 0;
-      }
-      salesByDate[date] += order.totalAmount;
+      salesByDate[date] = (salesByDate[date] || 0) + order.totalAmount;
     });
+
+    // 🔹 USERS BY DATE
+    const usersByDate = {};
+    users.forEach(user => {
+      const date = new Date(user.createdAt).toLocaleDateString();
+      usersByDate[date] = (usersByDate[date] || 0) + 1;
+    });
+
+    // 🔹 ORDERS BY DATE
+    const ordersByDate = {};
+    orders.forEach(order => {
+      const date = new Date(order.createdAt).toISOString().split("T")[0];
+      ordersByDate[date] = (ordersByDate[date] || 0) + 1;
+    });
+
+    // 🔹 SEND RESPONSE
     res.json({
       totalOrders,
+      totalUsers,
       totalSales,
-      salesByDate
+      salesByDate,
+      usersByDate,
+      ordersByDate
     });
+
   } catch (err) {
     res.status(500).json(err);
   }

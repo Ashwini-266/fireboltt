@@ -47,7 +47,7 @@ function Accessories() {
         products.map((product) => (
             <>
             <div key={product._id} className="product-card">
-                <img src={`http://localhost:3001/uploads/${product.imageUpload}`} alt={product.title} className="product-image" style={{width:"400px"}} />
+                <img src={product.imageUpload} alt={product.title} className="product-image" style={{width:"400px"}} />
                 
             </div>
             <div className="product-info" style={{padding:"40px"}}>

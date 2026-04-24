@@ -10,7 +10,9 @@ const userSchema=new mangoose.Schema({
         enum:["user","admin"],
         default:"user"
     }
-})
+},
+{ timestamps: true }
+);
 
 const UserModel=mangoose.model("users",userSchema)
 module.exports=UserModel;
