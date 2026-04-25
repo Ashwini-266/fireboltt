@@ -6,10 +6,15 @@ const generateInvoice = (order, filePath) => {
     const doc = new PDFDocument({ margin: 40 });
     const stream = fs.createWriteStream(filePath);
     doc.pipe(stream);
-    doc
-      .fontSize(20)
-      .fillColor("#2E7D32")
-      .text("FireBoltt", 40, 40);
+    // doc.image("D:\\WORKSPACE\\fireboltt\\Frontend\\public\\images\\logo.jpg", 40, 40, { width: 120 });
+    const path = require("path");
+
+doc.image(
+  path.join(__dirname, "../assets/logo.jpg"),
+  40,
+  40,
+  { width: 120 }
+);
 
     doc
       .fontSize(9)
