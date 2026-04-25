@@ -81,8 +81,8 @@ const totalAmount = Number((subtotal + totalGST).toFixed(2));
 
       products,  
       subtotal,
-      totalGST,        // ✅ FIXED
-      totalAmount,       // ✅ FIXED
+      totalGST,        
+      totalAmount,      
 
       address: fullAddress,
       paymentMethod,

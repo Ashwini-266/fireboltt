@@ -8,6 +8,7 @@ function ManageOrder() {
   const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState("");
   const [date, setDate] = useState("");
+  const [filter, setFilter]=useState("");
 
   useEffect(() => {
     fetchOrders();
@@ -51,6 +52,10 @@ function ManageOrder() {
    return matchesText && matchesDate;
   })
 
+
+  const handleFilter = (e) => {
+  };
+
   return (
     <>
       <h2>Manage Orders</h2>
@@ -58,6 +63,33 @@ function ManageOrder() {
       <input type="search" className="search" placeholder="search" value={search} onChange={(e) => setSearch(e.target.value)}/>
       <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
       <button className="back-button" onClick={() => navigate("/admin")}>Back</button>
+      </div>
+      <div className='order-filters'>
+        <p style={{color: "black"}}>Filter orders:</p>
+        <input
+          list="data"
+          placeholder="Filter orders..."
+          value={filter}
+          onChange={handleFilter}
+        />
+
+        <datalist id="data">
+          <option value="upi" />
+          <option value="smartaudio" />
+          <option value="smartglasses" />
+          <option value="accessories" />
+          <option value="Price < 500" />
+          <option value="Price > 1000" />
+          <option value="Rating >= 4" />
+          <option value="Rating < 4" />
+        </datalist>
+
+        <button
+          className="back-button"
+          onClick={() => navigate("/admin")}
+        >
+          Back
+        </button>
       </div>
     
       <table className="table">

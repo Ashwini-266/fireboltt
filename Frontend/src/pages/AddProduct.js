@@ -79,7 +79,6 @@ function Addproduct() {
               <label>GST</label><br />
               <input style={{ marginBottom: "10px",width:"80%" }} type="number" placeholder="Enter GST" value={gst} onChange={(e) => setGst(e.target.value)} required/>
             </div>
-
             <button type="submit">Add Product</button>
           </form>
         </div>

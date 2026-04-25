@@ -13,11 +13,9 @@ function ManageProduct() {
   const deleteProduct = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this product?");
     if (!confirmDelete) return;
-
     try {
       await axios.delete(`https://fireboltt-backend.onrender.com/products/${id}`);
       alert("Product deleted successfully");
-
       setProducts(prev =>
         prev.filter(product => product._id !== id)
       );
@@ -25,12 +23,11 @@ function ManageProduct() {
       console.error('Error deleting product:', error);
     }
   };
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const filterQuery = params.get("filter") || "";
-
     setFilter(filterQuery);
-
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
@@ -41,21 +38,18 @@ function ManageProduct() {
         console.error("Error fetching products:", error);
       }
     };
-
     fetchProducts();
   }, [location.search]);
+
+
   const handleFilter = (e) => {
     const value = e.target.value;
-
     const params = new URLSearchParams();
-
     if (value) {
       params.set("filter", value);
     }
-
     navigate(`?${params.toString()}`);
   };
-
 
   const filteredProducts = products.filter((product) => {
     if (
@@ -66,22 +60,18 @@ function ManageProduct() {
     ) {
       return product.category.toLowerCase() === filter.toLowerCase();
     }
-
     if (filter === "Price < 500") return product.price < 500;
     if (filter === "Price > 1000") return product.price > 1000;
-
     if (filter === "Rating >= 4") return product.rating >= 4;
     if (filter === "Rating < 4") return product.rating < 4;
-
     return true;
   });
 
   return (
     <>
       <h2>Manage Product</h2>
-
-
       <div className='product-filters'>
+        <p style={{color: "black"}}>Filter products:</p>
         <input
           list="data"
           placeholder="Filter products..."

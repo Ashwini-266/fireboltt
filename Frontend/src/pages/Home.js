@@ -14,6 +14,14 @@ function Home() {
   
   
   useEffect(() => {
+  const role = localStorage.getItem("role");
+
+  if (role === "admin") {
+    navigate("/admin", { replace: true });
+  }
+}, []);
+
+  useEffect(() => {
     const params = new URLSearchParams(location.search);
     const search = params.get("search");
     const fetchdata = async () => {
