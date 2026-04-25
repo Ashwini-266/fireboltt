@@ -194,14 +194,14 @@ const generateInvoice = (order, path) => {
     let s = y + 20;
 
     doc.fontSize(10)
-      .text(`Taxable Subtotal: ₹${subtotal.toFixed(2)}`, 350, s)
-      .text(`Total Tax: ₹${tax.toFixed(2)}`, 350, s + 15)
+      .text(`Taxable Subtotal: ${subtotal.toFixed(2)}`, 350, s)
+      .text(`Total Tax: ${tax.toFixed(2)}`, 350, s + 15)
       .text("Shipping: FREE", 350, s + 30);
 
     doc.rect(350, s + 60, 200, 25).fill("#e0e0e0");
 
     doc.fillColor("black").fontSize(11)
-      .text(`Grand Total: ₹${(subtotal + tax).toFixed(2)}`, 360, s + 67);
+      .text(`Grand Total: ${(subtotal + tax).toFixed(2)}`, 360, s + 67);
 
     doc.fontSize(10)
       .text("Thank you for shopping!", 40, s + 120, { align: "center" });
