@@ -9,12 +9,15 @@ const generateInvoice = (order, filePath) => {
     // doc.image("D:\\WORKSPACE\\fireboltt\\Frontend\\public\\images\\logo.jpg", 40, 40, { width: 120 });
     const path = require("path");
 
-doc.image(
-  path.join(__dirname, "../assets/logo.jpg"),
-  40,
-  40,
-  { width: 120 }
-);
+const logoPath = path.join(__dirname, "../assets/logo.jpg");
+
+if (fs.existsSync(logoPath)) {
+  try {
+    doc.image(logoPath, 40, 40, { width: 120 });
+  } catch (err) {
+    console.log("Logo error:", err.message);
+  }
+}
 
     doc
       .fontSize(9)
