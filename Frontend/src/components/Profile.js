@@ -30,7 +30,7 @@ useEffect(() => {
             <div key={index} className='order-card'>
             <div className="order-row">
                 <div className="order-images">
-                {order.products && order.products.map((item, i) => (
+                {/* {order.products && order.products.map((item, i) => (
                     <img
                     key={i}
 
@@ -39,7 +39,17 @@ useEffect(() => {
                     alt={item.productId.title}
                     className="order-image"
                     />
-                ))}
+                ))} */}
+                {order.products && order.products.map((item, i) => (
+  item.productId && (
+    <img
+      key={i}
+      src={item.productId.imageUpload}
+      alt={item.productId.title}
+      className="order-image"
+    />
+  )
+))}
                 </div>
                 <div className="order-info">
                 <div className="product-names">
