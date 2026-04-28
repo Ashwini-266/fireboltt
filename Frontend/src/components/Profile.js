@@ -45,20 +45,27 @@ useEffect(() => {
     <img
       key={i}
       src={item.productId.imageUpload}
-      alt={item.productId.title}
+      alt={item.title}
       className="order-image"
     />
   )
 ))}
                 </div>
                 <div className="order-info">
-                <div className="product-names">
+                {/* <div className="product-names">
                     {order.products && order.products.map((item, i) => (
                     <p key={i}>
                         {item.productId.title} (x{item.quantity})
                     </p>
                     ))}
-                </div>
+                </div> */}
+                <div className="product-names">
+  {order.products && order.products.map((item, i) => (
+    <p key={i}>
+      {item.title} (x{item.quantity})
+    </p>
+  ))}
+</div>
 
                 <p>Order ID: {order._id}</p>
                 <p>Total: ₹{order.totalAmount}</p>
