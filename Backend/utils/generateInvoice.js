@@ -6,26 +6,21 @@ const generateInvoice = (order, filePath) => {
     const doc = new PDFDocument({ margin: 40 });
     const stream = fs.createWriteStream(filePath);
     doc.pipe(stream);
-    // doc.image("D:\\WORKSPACE\\fireboltt\\Frontend\\public\\images\\logo.jpg", 40, 40, { width: 120 });
     const path = require("path");
-
-const logoPath = path.join(__dirname, "../assets/logo.jpg");
-
-if (fs.existsSync(logoPath)) {
-  try {
-    doc.image(logoPath, 40, 40, { width: 120 });
-  } catch (err) {
-    console.log("Logo error:", err.message);
-  }
-}
-
+    const logoPath = path.join(__dirname, "../assets/logo.jpg");
+    if (fs.existsSync(logoPath)) {
+      try {
+        doc.image(logoPath, 40, 40, { width: 120 });
+      } catch (err) {
+        console.log("Logo error:", err.message);
+      }
+    }
     doc
       .fontSize(9)
       .fillColor("#000")
       .text("Corporate Office:", 350, 40)
       .text("FireBoltt Pvt Ltd", 350, 55)
       .text("Mangalore, Karnataka, India", 350, 70);
-
     doc.moveTo(40, 100).lineTo(550, 100).stroke();
     doc
       .fontSize(14)
@@ -64,16 +59,13 @@ if (fs.existsSync(logoPath)) {
     let y = tableTop + 25;
     let subtotal = 0;
     let totalTax = 0;
-
     order.products.forEach((item) => {
       const base = item.price * item.quantity;
       const cgst = (base * (item.gst || 18)) / 200;
       const sgst = cgst;
       const total = base + cgst + sgst;
-
       subtotal += base;
       totalTax += cgst + sgst;
-
       doc
         .fontSize(9)
         .text(item.title, 40, y, { width: 200 })
@@ -87,7 +79,6 @@ if (fs.existsSync(logoPath)) {
       y += 20;
     });
     const summaryY = y + 20;
-
     doc
       .fontSize(10)
       .text(`Taxable Subtotal: ${subtotal.toFixed(2)}`, 350, summaryY)
@@ -96,7 +87,6 @@ if (fs.existsSync(logoPath)) {
     doc
       .rect(350, summaryY + 60, 200, 25)
       .fill("#E0E0E0");
-
     doc
       .fillColor("#000")
       .fontSize(11)
@@ -113,112 +103,10 @@ if (fs.existsSync(logoPath)) {
         summaryY + 120,
         { align: "center" }
       );
-
     doc.end();
-
     stream.on("finish", resolve);
     stream.on("error", reject);
   });
 };
 
 module.exports = generateInvoice;
-
-
-// const PDFDocument = require("pdfkit");
-// const fs = require("fs");
-
-// const generateInvoice = (order, path) => {
-//   return new Promise((resolve, reject) => {
-//     const doc = new PDFDocument({ margin: 40 });
-//     doc.pipe(fs.createWriteStream(path));
-
-//     doc.fontSize(20).fillColor("green").text("FireBoltt", 40, 40);
-
-//     doc.fillColor("black").fontSize(9)
-//       .text("Corporate Office:", 350, 40)
-//       .text("FireBoltt Pvt Ltd", 350, 55)
-//       .text("Mangalore, India", 350, 70);
-
-//     doc.moveTo(40, 100).lineTo(550, 100).stroke();
-
-//     doc.fontSize(14).text("OFFICIAL RECEIPT", 40, 110);
-
-//     doc.fontSize(10)
-//       .text(`Invoice #: ${order._id}`, 40, 140)
-//       .text(`Order ID: ${order._id}`, 40, 155)
-//       .text(`Date: ${new Date(order.createdAt).toLocaleDateString()}`, 40, 170)
-//       .text(`Payment: ${order.paymentMethod || "COD"}`, 40, 185)
-//       .text(`Status: ${order.status || "Pending"}`, 40, 200);
-
-//     doc.text("Shipping: Standard Delivery", 300, 140)
-//       .text("Estimated: 3-5 Days", 300, 155)
-//       .text("Shipping Cost: Free", 300, 170)
-//       .text(`Phone: ${order.phone}`, 300, 185);
-
-//     doc.fontSize(11).text("Billed To:", 40, 230);
-//     doc.fontSize(10)
-//       .text(order.userName, 40, 245)
-//       .text(order.address, 40, 260, { width: 250 });
-
-//     let y = 310;
-
-//     doc.fontSize(10)
-//       .text("Item", 40, y)
-//       .text("Qty", 250, y)
-//       .text("Price", 290, y)
-//       .text("Base", 340, y)
-//       .text("CGST", 400, y)
-//       .text("SGST", 460, y)
-//       .text("Total", 510, y);
-
-//     doc.moveTo(40, y + 15).lineTo(550, y + 15).stroke();
-
-//     y += 25;
-
-//     let subtotal = 0;
-//     let tax = 0;
-
-//     order.products.forEach((p) => {
-//       let base = p.price * p.quantity;
-//       let cgst = (base * (p.gst || 18)) / 200;
-//       let sgst = cgst;
-//       let total = base + cgst + sgst;
-
-//       subtotal += base;
-//       tax += cgst + sgst;
-
-//       doc.fontSize(9)
-//         .text(p.title, 40, y, { width: 200 })
-//         .text(p.quantity, 250, y)
-//         .text(p.price.toFixed(2), 290, y)
-//         .text(base.toFixed(2), 340, y)
-//         .text(cgst.toFixed(2), 400, y)
-//         .text(sgst.toFixed(2), 460, y)
-//         .text(total.toFixed(2), 510, y);
-
-//       y += 20;
-//     });
-
-//     let s = y + 20;
-
-//     doc.fontSize(10)
-//       .text(`Taxable Subtotal: ${subtotal.toFixed(2)}`, 350, s)
-//       .text(`Total Tax: ${tax.toFixed(2)}`, 350, s + 15)
-//       .text("Shipping: FREE", 350, s + 30);
-
-//     doc.rect(350, s + 60, 200, 25).fill("#e0e0e0");
-
-//     doc.fillColor("black").fontSize(11)
-//       .text(`Grand Total: ${(subtotal + tax).toFixed(2)}`, 360, s + 67);
-
-//     doc.fontSize(10)
-//       .text("Thank you for shopping!", 40, s + 120, { align: "center" });
-
-//     doc.end();
-
-//     doc.on("finish", resolve);
-//     doc.on("error", reject);
-//   });
-// };
-
-// module.exports = generateInvoice;
