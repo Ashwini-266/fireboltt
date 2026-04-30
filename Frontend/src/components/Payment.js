@@ -98,7 +98,7 @@ const totalAmount = Number((subtotal + totalGST).toFixed(2));
   );
 }
 
-      // ✅ SINGLE PRODUCT
+      // SINGLE PRODUCT
       else if (product) {
         const price = product.price;
 const qty = product.quantity || 1;
@@ -152,13 +152,6 @@ subtotal: base,
   // Razorpay Payment
   const handleRazorpayPayment = async () => {
     try {
-      // const totalAmount = cartItems
-      //   ? cartItems.reduce(
-      //       (sum, item) =>
-      //         sum + item.productId.price * item.quantity,
-      //       0
-      //     )
-      //   : product?.price;
       const totalAmount = cartItems
   ? cartItems.reduce((sum, item) => {
       const base = item.productId.price * item.quantity;

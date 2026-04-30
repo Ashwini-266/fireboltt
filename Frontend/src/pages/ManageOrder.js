@@ -59,11 +59,7 @@ function ManageOrder() {
   return (
     <>
       <h2>Manage Orders</h2>
-      <div className="order-filters">
-      <input type="search" className="search" placeholder="search" value={search} onChange={(e) => setSearch(e.target.value)}/>
-      <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
-      <button className="back-button" onClick={() => navigate("/admin")}>Back</button>
-      </div>
+
       <div className='order-filters'>
         <p style={{color: "black"}}>Filter orders:</p>
         <input

@@ -316,14 +316,10 @@ app.post("/orders", async (req, res) => {
       __dirname,
       `invoice_${order._id}.pdf`
     );
-
-    // ✅ generate invoice
     await generateInvoice(order, invoicePath);
 
     console.log("Invoice generated at:", invoicePath);
     console.log("Sending email with attachment:", invoicePath);
-
-    // ✅ email with attachment
     const mailOptions = {
       from: "ashwiniisha31@gmail.com",
       to: req.body.email,
@@ -351,10 +347,10 @@ await transporter.sendMail(mailOptions);
 const fs = require("fs");
 
 if (fs.existsSync(invoicePath)) {
-  console.log("✅ Invoice file exists, deleting...");
+  console.log("Invoice file exists, deleting...");
   fs.unlinkSync(invoicePath);
 } else {
-  console.log("❌ Invoice file NOT found");
+  console.log("Invoice file NOT found");
 }
 
 
@@ -567,29 +563,21 @@ app.get("/admin/stats", async (req, res) => {
       (sum, order) => sum + order.totalAmount,
       0
     );
-
-    // 🔹 SALES BY DATE
     const salesByDate = {};
     orders.forEach(order => {
       const date = new Date(order.createdAt).toLocaleDateString();
       salesByDate[date] = (salesByDate[date] || 0) + order.totalAmount;
     });
-
-    // 🔹 USERS BY DATE
     const usersByDate = {};
     users.forEach(user => {
       const date = new Date(user.createdAt).toLocaleDateString();
       usersByDate[date] = (usersByDate[date] || 0) + 1;
     });
-
-    // 🔹 ORDERS BY DATE
     const ordersByDate = {};
     orders.forEach(order => {
       const date = new Date(order.createdAt).toISOString().split("T")[0];
       ordersByDate[date] = (ordersByDate[date] || 0) + 1;
     });
-
-    // 🔹 SEND RESPONSE
     res.json({
       totalOrders,
       totalUsers,
