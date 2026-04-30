@@ -316,7 +316,12 @@ app.post("/orders", async (req, res) => {
       __dirname,
       `invoice_${order._id}.pdf`
     );
-    await generateInvoice(order, invoicePath);
+    // await generateInvoice(order, invoicePath);
+    try {
+  await generateInvoice(order, invoicePath);
+} catch (err) {
+  console.error("Invoice Error:", err.message);
+}
 
     console.log("Invoice generated at:", invoicePath);
     console.log("Sending email with attachment:", invoicePath);
@@ -342,7 +347,12 @@ app.post("/orders", async (req, res) => {
       ],
     };
 
-await transporter.sendMail(mailOptions);
+// await transporter.sendMail(mailOptions);
+try {
+  await transporter.sendMail(mailOptions);
+} catch (err) {
+  console.error("Email Error:", err.message);
+}
 
 const fs = require("fs");
 
@@ -358,7 +368,7 @@ if (fs.existsSync(invoicePath)) {
 
   } catch (err) {
     console.error("ORDER ERROR:", err);
-    res.status(500).json(err);
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -479,37 +489,22 @@ app.get("/cart/:userId", async (req, res) => {
   }
 });
 
-//create razorpay order
-// app.post("/create-razorpay-order", async (req, res) => {
-//   try {
-//     const { amount } = req.body;
-
-//     const order = await razorpay.orders.create({
-//       amount: amount * 100,
-//       currency: "INR",
-//     });
-
-//     res.json(order);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
 
 app.post("/create-razorpay-order", async (req, res) => {
   try {
     const { amount } = req.body;
 
     const options = {
-      amount: Math.round(amount * 100), // ✅ FIX (very important)
+      amount: Math.round(amount * 100), 
       currency: "INR",
-      receipt: "order_" + Date.now(),   // ✅ good practice
+      receipt: "order_" + Date.now(),   
     };
 
     const order = await razorpay.orders.create(options);
 
     res.json(order);
   } catch (err) {
-    console.error("Razorpay Error:", err); // ✅ IMPORTANT for debugging
+    console.error("Razorpay Error:", err); 
     res.status(500).json({
       message: "Razorpay order creation failed",
       error: err.message,
