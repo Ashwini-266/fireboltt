@@ -21,7 +21,6 @@ useEffect(() => {
       
       <h3>Order Details</h3>
       <div className='order-details'>
-        
         {orders.length === 0 ? (
         <p style={{ color: "black" }}>No orders found</p>
         ) : (
@@ -29,43 +28,25 @@ useEffect(() => {
             <div key={index} className='order-card'>
             <div className="order-row">
                 <div className="order-images">
-                {/* {order.products && order.products.map((item, i) => (
-                    <img
-                    key={i}
-
-                    src={item.productId.imageUpload}
-
-                    alt={item.productId.title}
-                    className="order-image"
-                    />
-                ))} */}
                 {order.products && order.products.map((item, i) => (
-  item.productId && (
-    <img
-      key={i}
-      src={item.productId.imageUpload}
-      alt={item.title}
-      className="order-image"
-    />
-  )
-))}
+                item.productId && (
+                  <img
+                    key={i}
+                    src={item.productId.imageUpload}
+                    alt={item.title}
+                    className="order-image"
+                  />
+                )
+              ))}
                 </div>
                 <div className="order-info">
-                {/* <div className="product-names">
-                    {order.products && order.products.map((item, i) => (
-                    <p key={i}>
-                        {item.productId.title} (x{item.quantity})
-                    </p>
-                    ))}
-                </div> */}
                 <div className="product-names">
-  {order.products && order.products.map((item, i) => (
-    <p key={i}>
-      {item.title} (x{item.quantity})
-    </p>
-  ))}
-</div>
-
+                  {order.products && order.products.map((item, i) => (
+                    <p key={i}>
+                      {item.title} (x{item.quantity})
+                    </p>
+                  ))}
+                </div>
                 <p>Order ID: {order._id}</p>
                 <p>Total: ₹{order.totalAmount}</p>
                 <p><strong>Status:</strong> {order.status}</p>

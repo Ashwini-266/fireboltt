@@ -59,15 +59,6 @@ function Admin() {
   ],
 };
 
-//   const usersData = {
-//   labels: Object.keys(stats.usersByDate || {}),
-//   datasets: [
-//     {
-//       label: "Users",
-//       data: Object.values(stats.usersByDate || {}),
-//     },
-//   ],
-// };
 const userDates = Object.keys(stats.usersByDate || {});
 const userValues = Object.values(stats.usersByDate || {});
 let cumulativeUsers = [];

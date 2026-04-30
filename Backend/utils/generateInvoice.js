@@ -75,11 +75,6 @@ const base = price * qty;
         .fontSize(9)
         .text(item.title, 40, y, { width: 200 })
         .text(item.quantity, 250, y)
-        // .text(item.price.toFixed(2), 290, y)
-        // .text(base.toFixed(2), 340, y)
-        // .text(cgst.toFixed(2), 400, y)
-        // .text(sgst.toFixed(2), 460, y)
-        // .text(total.toFixed(2), 510, y);
         .text((item.price || 0).toFixed(2), 290, y)
 .text((base || 0).toFixed(2), 340, y)
 .text((cgst || 0).toFixed(2), 400, y)

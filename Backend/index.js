@@ -53,10 +53,6 @@ const sendOrderEmail = async (order, invoicePath) => {
 };
 
 
-
-// const generateInvoice = require("./utils/generateInvoice");
-// const path = require("path");
-
 const { v2: cloudinary } = require("cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
@@ -335,94 +331,11 @@ app.get("/products/category/:category", async (req, res) => {
   }
 });
 
-
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS,
-//   },
-// });
-
-
-
-
-
-//create order
-// app.post("/orders", async (req, res) => {
-//   try {
-//     console.log("ORDER DATA:", req.body);
-
-//     const order = await OrderModel.create(req.body);
-
-//     const invoicePath = path.join(
-//       __dirname,
-//       `invoice_${order._id}.pdf`
-//     );
-//     // await generateInvoice(order, invoicePath);
-//     try {
-//   await generateInvoice(order, invoicePath);
-// } catch (err) {
-//   console.error("Invoice Error:", err.message);
-// }
-
-//     console.log("Invoice generated at:", invoicePath);
-//     console.log("Sending email with attachment:", invoicePath);
-//     const mailOptions = {
-//       from: "ashwiniisha31@gmail.com",
-//       to: req.body.email,
-//       subject: "Order Confirmation with Invoice",
-//       html: `
-//         <h2>Order Placed Successfully</h2>
-//         <p>Hello ${req.body.userName},</p>
-//         <p>Your order has been placed successfully.</p>
-//         <p><strong>Order ID:</strong> ${order._id}</p>
-//         <p><strong>Payment Method:</strong> ${req.body.paymentMethod}</p>
-//         <p><strong>Address:</strong> ${req.body.address}</p>
-//         <br/>
-//         <p>Thank you for shopping with us</p>
-//       `,
-//       attachments: [
-//         {
-//           filename: `invoice_${order._id}.pdf`,
-//           path: path.resolve(invoicePath)
-//         },
-//       ],
-//     };
-
-// // await transporter.sendMail(mailOptions);
-// try {
-//   await transporter.sendMail(mailOptions);
-// } catch (err) {
-//   console.error("Email Error:", err.message);
-// }
-
-// const fs = require("fs");
-
-// if (fs.existsSync(invoicePath)) {
-//   console.log("Invoice file exists, deleting...");
-//   // fs.unlinkSync(invoicePath);
-// } else {
-//   console.log("Invoice file NOT found");
-// }
-
-
-//     res.json(order);
-
-//   } catch (err) {
-//     console.error("ORDER ERROR:", err);
-//     res.status(500).json({ message: err.message });
-//   }
-// });
-
+//order placement
 app.post("/orders", async (req, res) => {
   try {
     const order = await OrderModel.create(req.body);
-
-    // ⚡ SEND RESPONSE FAST (no delay)
     res.json(order);
-
-    // 🚀 BACKGROUND EMAIL + INVOICE
     (async () => {
       try {
         const invoicePath = path.join(
@@ -435,7 +348,6 @@ app.post("/orders", async (req, res) => {
         await sendOrderEmail(order, invoicePath);
 
       } catch (err) {
-        // console.error("Email/Invoice Error:", err.message);
         console.error("FULL EMAIL ERROR:", err.response?.body || err.message);
       }
     })();
@@ -492,7 +404,7 @@ app.put("/orders/:id", async (req, res) => {
     if (subject && message) {
       await sgMail.send({
   to: updated.email,
-  from: "ashwinigowda682003@gmail.com", // verified email
+  from: "ashwinigowda682003@gmail.com", 
   subject: subject,
   html: message,
 });
@@ -596,28 +508,7 @@ app.post("/address", async (req, res) => {
   }
 });
 
-// app.get("/admin/stats", async (req, res) => {
-//   try {
-//     const orders = await OrderModel.find();
-//     let totalOrders = orders.length;
-//     let totalSales = orders.reduce((sum, order) => sum + order.totalAmount, 0);
-//     const salesByDate = {};
-//     orders.forEach(order => {
-//       const date = new Date(order.createdAt).toLocaleDateString();
-//       if (!salesByDate[date]) {
-//         salesByDate[date] = 0;
-//       }
-//       salesByDate[date] += order.totalAmount;
-//     });
-//     res.json({
-//       totalOrders,
-//       totalSales,
-//       salesByDate
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+
 app.get("/admin/stats", async (req, res) => {
   try {
     // 🔹 Fetch data

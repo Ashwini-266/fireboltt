@@ -16,7 +16,8 @@ function EditProduct() {
         category: "",
         price: "",
         quantity: "",
-        rating: ""
+        rating: "",
+        gst: ""
     });
 
     
@@ -40,6 +41,7 @@ function EditProduct() {
         formData.append("price",product.price);
         formData.append("quantity",product.quantity);
         formData.append("rating",product.rating);
+        formData.append("gst",product.gst);
         await axios.put(`https://fireboltt-backend.onrender.com/products/${id}`,formData,{
             headers:{"Content-Type":"multipart/form-data"},
         });
@@ -94,6 +96,10 @@ function EditProduct() {
               <input style={{ marginBottom: "10px",width:"80%" }} type="number" placeholder="Enter rating" value={product.rating} onChange={(e) => setProduct({...product, rating: e.target.value})} required/>
             </div>
     
+            <div style={{ marginBottom: "10px" }}>
+              <label>GST</label><br />
+              <input style={{ marginBottom: "10px",width:"80%" }} type="number" placeholder="Enter GST" value={product.gst} onChange={(e) => setProduct({...product, gst: e.target.value})} required/>
+            </div>
 
             <button type="submit">Update</button>
             <button style={{backgroundColor:"red"}} type="button" onClick={() => navigate("/manageproduct")}>Back</button>
