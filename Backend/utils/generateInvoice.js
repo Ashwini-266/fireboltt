@@ -59,8 +59,13 @@ const generateInvoice = (order, filePath) => {
     let y = tableTop + 25;
     let subtotal = 0;
     let totalTax = 0;
+    console.log("INVOICE ITEMS:", order.products);
     order.products.forEach((item) => {
-      const base = item.price * item.quantity;
+      // const base = item.price * item.quantity;
+      const price = item.price || 0;
+const qty = item.quantity || 0;
+
+const base = price * qty;
       const cgst = (base * (item.gst || 18)) / 200;
       const sgst = cgst;
       const total = base + cgst + sgst;
@@ -70,11 +75,16 @@ const generateInvoice = (order, filePath) => {
         .fontSize(9)
         .text(item.title, 40, y, { width: 200 })
         .text(item.quantity, 250, y)
-        .text(item.price.toFixed(2), 290, y)
-        .text(base.toFixed(2), 340, y)
-        .text(cgst.toFixed(2), 400, y)
-        .text(sgst.toFixed(2), 460, y)
-        .text(total.toFixed(2), 510, y);
+        // .text(item.price.toFixed(2), 290, y)
+        // .text(base.toFixed(2), 340, y)
+        // .text(cgst.toFixed(2), 400, y)
+        // .text(sgst.toFixed(2), 460, y)
+        // .text(total.toFixed(2), 510, y);
+        .text((item.price || 0).toFixed(2), 290, y)
+.text((base || 0).toFixed(2), 340, y)
+.text((cgst || 0).toFixed(2), 400, y)
+.text((sgst || 0).toFixed(2), 460, y)
+.text((total || 0).toFixed(2), 510, y)
 
       y += 20;
     });
