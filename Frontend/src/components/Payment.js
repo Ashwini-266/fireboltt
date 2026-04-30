@@ -164,6 +164,8 @@ subtotal: base,
       return base + gstAmount;
     })();
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
       const res = await axios.post(
         "https://fireboltt-backend.onrender.com/create-razorpay-order",
         { amount: totalAmount }
@@ -178,11 +180,11 @@ subtotal: base,
         handler: function (response) {
           orderPlace(response.razorpay_payment_id);
         },
-        prefill: {
-          name: formData?.name,
-          email: formData?.email,
-          contact: formData?.phone,
-        },
+prefill: {
+  name: formData?.name,
+  email: user?.email,
+  contact: formData?.phone,
+},
         theme: {
           color: "#000",
         },
@@ -211,7 +213,7 @@ subtotal: base,
                 {formData?.state} - {formData?.pincode}
               </p>
               <p>{formData?.phone}</p>
-              <p>{formData?.email}</p>
+              
             </div>
           </div>
         </div>

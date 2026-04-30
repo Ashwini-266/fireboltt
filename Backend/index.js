@@ -434,7 +434,8 @@ app.post("/orders", async (req, res) => {
         await sendOrderEmail(order, invoicePath);
 
       } catch (err) {
-        console.error("Email/Invoice Error:", err.message);
+        // console.error("Email/Invoice Error:", err.message);
+        console.error("FULL EMAIL ERROR:", err.response?.body || err.message);
       }
     })();
 

@@ -11,7 +11,7 @@ function Checkout() {
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    email:"",
+    
     address: "",
     pincode: "",
     city: "",
@@ -116,7 +116,7 @@ function Checkout() {
           <h3>Delivery Details</h3>
           <input name="name" placeholder="Full Name" onChange={handleChange} />
           <input name="phone" placeholder="Phone Number" onChange={handleChange} />
-          <input name="email" placeholder="Email Address" onChange={handleChange} />
+          
           <textarea name="address" placeholder="Address" onChange={handleChange} />
           <div className="row">
             <input name="pincode" placeholder="Pincode" onChange={handleChange} />
