@@ -19,42 +19,12 @@ const sgMail = require("@sendgrid/mail");
 console.log("API KEY:", process.env.SENDGRID_API_KEY);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// const sendOrderEmail = async (order, invoicePath) => {
-//   const fs = require("fs");
+const sendOrderEmail = async (order, invoicePath) => {
+  const fs = require("fs");
 
-//   const msg = {
-//     to: order.email,
-//     from: "ashwinigowda682003@gmail.com", // must be verified
-//     subject: "Order Placed Successfully",
-//     html: `
-//       <h2>Order Confirmed</h2>
-//       <p>Hello ${order.userName},</p>
-//       <p>Your order has been placed successfully.</p>
-
-//       <p><strong>Order ID:</strong> ${order._id}</p>
-//       <p><strong>Total Amount:</strong> ₹${order.totalAmount}</p>
-//       <p><strong>Payment:</strong> ${order.paymentMethod}</p>
-
-//       <br/>
-//       <p>Thank you for shopping with us </p>
-//     `,
-//     attachments: [
-//       {
-//         content: fs.readFileSync(invoicePath).toString("base64"),
-//         filename: `invoice_${order._id}.pdf`,
-//         type: "application/pdf",
-//         disposition: "attachment",
-//       },
-//     ],
-//   };
-
-//   await sgMail.send(msg);
-//   fs.unlinkSync(invoicePath);
-// };
-const sendOrderEmail = async (order) => {
   const msg = {
     to: order.email,
-    from: "ashwinigowda682003@gmail.com",
+    from: "ashwinigowda682003@gmail.com", // must be verified
     subject: "Order Placed Successfully",
     html: `
       <h2>Order Confirmed</h2>
@@ -66,12 +36,20 @@ const sendOrderEmail = async (order) => {
       <p><strong>Payment:</strong> ${order.paymentMethod}</p>
 
       <br/>
-      <p>Thank you for shopping with us</p>
+      <p>Thank you for shopping with us </p>
     `,
+    attachments: [
+      {
+        content: fs.readFileSync(invoicePath).toString("base64"),
+        filename: `invoice_${order._id}.pdf`,
+        type: "application/pdf",
+        disposition: "attachment",
+      },
+    ],
   };
 
   await sgMail.send(msg);
-  console.log("✅ EMAIL SENT SUCCESSFULLY");
+  fs.unlinkSync(invoicePath);
 };
 
 
@@ -454,7 +432,7 @@ app.post("/orders", async (req, res) => {
 
         await generateInvoice(order, invoicePath);
 
-        await sendOrderEmail(order);
+        await sendOrderEmail(order, invoicePath);
 
       } catch (err) {
         // console.error("Email/Invoice Error:", err.message);
