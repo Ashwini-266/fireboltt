@@ -43,7 +43,7 @@ function Admin() {
 
   useEffect(() => {
     axios
-      .get("https://fireboltt-backend.onrender.com/admin/stats")
+      .get(`${process.env.REACT_APP_API_URL}/admin/stats`)
       .then((res) => setStats(res.data))
       .catch((err) => console.log(err));
   }, []);

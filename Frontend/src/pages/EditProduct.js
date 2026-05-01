@@ -22,7 +22,7 @@ function EditProduct() {
 
     
     useEffect(() => {
-        axios.get(`https://fireboltt-backend.onrender.com/products/${id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/products/${id}`)
             .then(res=> {
                 setProduct(res.data);
             })
@@ -42,7 +42,7 @@ function EditProduct() {
         formData.append("quantity",product.quantity);
         formData.append("rating",product.rating);
         formData.append("gst",product.gst);
-        await axios.put(`https://fireboltt-backend.onrender.com/products/${id}`,formData,{
+        await axios.put(`${process.env.REACT_APP_API_URL}/products/${id}`,formData,{
             headers:{"Content-Type":"multipart/form-data"},
         });
         alert("product updated successfully");

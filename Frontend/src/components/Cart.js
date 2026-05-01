@@ -29,7 +29,7 @@ const cartItems = location.state?.cartItems;
 
         if (user) {
           try {
-            const res = await fetch(`https://fireboltt-backend.onrender.com/cart/${user._id}`);
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/cart/${user._id}`);
             const data = await res.json();
             setCartData(data);
           } catch (err) {
@@ -49,7 +49,7 @@ const cartItems = location.state?.cartItems;
       if (newQuantity < 1) return;
       const user = JSON.parse(localStorage.getItem("user"));
       if (user) {
-        const res = await fetch(`https://fireboltt-backend.onrender.com/cart/${id}`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/cart/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ quantity: newQuantity }),
@@ -76,7 +76,7 @@ const cartItems = location.state?.cartItems;
       const user = JSON.parse(localStorage.getItem("user"));
 
       if (user) {
-        await fetch(`https://fireboltt-backend.onrender.com/cart/item/${id}`, {
+        await fetch(`${process.env.REACT_APP_API_URL}/cart/item/${id}`, {
           method: "DELETE",
         });
         setCartData((prev) =>

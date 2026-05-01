@@ -16,14 +16,14 @@ function ManageOrder() {
 
   // fetch orders
   const fetchOrders = () => {
-    axios.get("https://fireboltt-backend.onrender.com/orders")
+    axios.get(`${process.env.REACT_APP_API_URL}/orders`)
       .then(res => setOrders(res.data))
       .catch(err => console.log(err));
   };
 
   // update order
   const updateStatus = (id, status) => {
-    axios.put(`https://fireboltt-backend.onrender.com/orders/${id}`, { status })
+    axios.put(`${process.env.REACT_APP_API_URL}/orders/${id}`, { status })
       .then(() => {
         fetchOrders();
       });
@@ -31,7 +31,7 @@ function ManageOrder() {
 
   //delete order
   const deleteOrder = (id) => {
-    axios.delete(`https://fireboltt-backend.onrender.com/orders/${id}`)
+    axios.delete(`${process.env.REACT_APP_API_URL}/orders/${id}`)
       .then(() => {
         fetchOrders();
       });

@@ -31,7 +31,7 @@ function SmartAudio(){
     const params = new URLSearchParams(location.search);
     const query = params.get("search");
 
-    let url = "https://fireboltt-backend.onrender.com/products/category/smartaudio";
+    let url = `${process.env.REACT_APP_API_URL}/products/category/smartaudio`;
 
     const queryParams = [];
 
@@ -55,7 +55,7 @@ function SmartAudio(){
   const addProduct = async (product) => {
       const user = JSON.parse(localStorage.getItem("user"));
     try {
-      await fetch("https://fireboltt-backend.onrender.com/cart", {
+      await fetch(`${process.env.REACT_APP_API_URL}/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

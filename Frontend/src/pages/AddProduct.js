@@ -25,7 +25,7 @@ function Addproduct() {
     formData.append('quantity', quantity);
     formData.append('rating', rating);
     formData.append('gst', gst);
-    axios.post('https://fireboltt-backend.onrender.com/products',
+    axios.post(`${process.env.REACT_APP_API_URL}/products`,
       formData
     );
     alert("Product added successfully");

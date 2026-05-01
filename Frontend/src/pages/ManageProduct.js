@@ -14,7 +14,7 @@ function ManageProduct() {
     const confirmDelete = window.confirm("Are you sure you want to delete this product?");
     if (!confirmDelete) return;
     try {
-      await axios.delete(`https://fireboltt-backend.onrender.com/products/${id}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/products/${id}`);
       alert("Product deleted successfully");
       setProducts(prev =>
         prev.filter(product => product._id !== id)
@@ -31,7 +31,7 @@ function ManageProduct() {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          `https://fireboltt-backend.onrender.com/products`
+          `${process.env.REACT_APP_API_URL}/products`
         );
         setProducts(res.data);
       } catch (error) {

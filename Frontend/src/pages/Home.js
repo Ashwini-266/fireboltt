@@ -27,8 +27,8 @@ function Home() {
     const fetchdata = async () => {
       try {
         const url = search
-          ? `https://fireboltt-backend.onrender.com/products?search=${search}`
-          : `https://fireboltt-backend.onrender.com/products`;
+          ? `${process.env.REACT_APP_API_URL}/products?search=${search}`
+          : `${process.env.REACT_APP_API_URL}/products`;
         const response = await axios.get(url);
         setProducts(response.data);
       } catch (error) {
@@ -44,7 +44,7 @@ function Home() {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       try {
-        await fetch("https://fireboltt-backend.onrender.com/cart", {
+        await fetch(`${process.env.REACT_APP_API_URL}/cart`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

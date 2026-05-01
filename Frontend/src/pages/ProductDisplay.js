@@ -19,7 +19,7 @@ function ProductDisplay() {
     });
 
     useEffect(() => {
-      axios.get(`https://fireboltt-backend.onrender.com/products/${id}`)
+      axios.get(`${process.env.REACT_APP_API_URL}/products/${id}`)
       .then(res=> {
         setProduct(res.data);
       })
@@ -44,7 +44,7 @@ function ProductDisplay() {
       const user = JSON.parse(localStorage.getItem("user"));
       if (user) {
         try {
-          await fetch("https://fireboltt-backend.onrender.com/cart", {
+          await fetch(`${process.env.REACT_APP_API_URL}/cart`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

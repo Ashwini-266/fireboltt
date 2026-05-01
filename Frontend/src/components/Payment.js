@@ -72,7 +72,7 @@ const products = cartItems.map(item => {
 const totalAmount = Number((subtotal + totalGST).toFixed(2));
 
   await axios.post(
-    "https://fireboltt-backend.onrender.com/orders",
+    `${process.env.REACT_APP_API_URL}/orders`,
     {
       userName: user.firstname,
       userId: user._id,
@@ -94,7 +94,7 @@ const totalAmount = Number((subtotal + totalGST).toFixed(2));
   );
 
   await axios.delete(
-    `https://fireboltt-backend.onrender.com/cart/${user._id}`
+    `${process.env.REACT_APP_API_URL}/cart/${user._id}`
   );
 }
 
@@ -107,7 +107,7 @@ const gst = product.gst || 0;
 const base = price * qty;
 const gstAmount = (base * gst) / 100;
         await axios.post(
-          "https://fireboltt-backend.onrender.com/orders",
+          `${process.env.REACT_APP_API_URL}/orders`,
           {
             userName: user.firstname,
             userId: user._id,
@@ -167,7 +167,7 @@ subtotal: base,
     const user = JSON.parse(localStorage.getItem("user"));
 
       const res = await axios.post(
-        "https://fireboltt-backend.onrender.com/create-razorpay-order",
+        `${process.env.REACT_APP_API_URL}/create-razorpay-order`,
         { amount: totalAmount }
       );
       const options = {

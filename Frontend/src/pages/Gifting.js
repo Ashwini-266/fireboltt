@@ -10,7 +10,7 @@ function Gifting() {
 
   useEffect(() => {
     axios
-      .get("https://fireboltt-backend.onrender.com/products/category/smartwatch") 
+      .get(`${process.env.REACT_APP_API_URL}/products/category/smartwatch`) 
       .then((res) => setProducts(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -32,7 +32,7 @@ function Gifting() {
       return;
     }
     try {
-      await axios.post("https://fireboltt-backend.onrender.com/cart", {
+      await axios.post(`${process.env.REACT_APP_API_URL}/cart`, {
         productId: product._id,
         quantity: 1,
         userId: user._id,

@@ -16,7 +16,6 @@ const generateInvoice = require("./utils/generateInvoice");
 const path = require("path");
 
 const sgMail = require("@sendgrid/mail");
-console.log("API KEY:", process.env.SENDGRID_API_KEY);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendOrderEmail = async (order, invoicePath) => {
@@ -24,7 +23,7 @@ const sendOrderEmail = async (order, invoicePath) => {
 
   const msg = {
     to: order.email,
-    from: "ashwinigowda682003@gmail.com", // must be verified
+    from: "ashwinigowda682003@gmail.com", 
     subject: "Order Placed Successfully",
     html: `
       <h2>Order Confirmed</h2>

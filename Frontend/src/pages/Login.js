@@ -26,7 +26,7 @@ function Login() {
   e.preventDefault();
 
   axios
-    .post("https://fireboltt-backend.onrender.com/login", {
+    .post(`${process.env.REACT_APP_API_URL}/login`, {
       email,
       password,
     })

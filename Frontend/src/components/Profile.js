@@ -9,7 +9,7 @@ function Profile() {
 useEffect(() => {
   if (user) {
     axios
-      .get(`https://fireboltt-backend.onrender.com/orders/${user._id}`)
+      .get(`${process.env.REACT_APP_API_URL}/orders/${user._id}`)
       .then(res => setOrders(res.data))
       .catch(err => console.log(err));
   }
