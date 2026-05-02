@@ -211,11 +211,6 @@ h2{
   gap: 20px;
 }
 
-/* .chart-section {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 20px;
-} */
 
 .chart {
   background: #ffffff;
@@ -229,6 +224,9 @@ h2 {
   width: 100%;
   margin-bottom: 20px;
 }
+
+
+
 
 
 

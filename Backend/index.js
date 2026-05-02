@@ -507,47 +507,87 @@ app.post("/address", async (req, res) => {
   }
 });
 
-
 app.get("/admin/stats", async (req, res) => {
   try {
-    // 🔹 Fetch data
     const orders = await OrderModel.find();
     const users = await UserModel.find();
-
-    // 🔹 TOTAL COUNTS
     const totalOrders = orders.length;
     const totalUsers = users.length;
-
     const totalSales = orders.reduce(
-      (sum, order) => sum + order.totalAmount,
+      (sum, order) => sum + (order.totalAmount || 0),
       0
     );
+
+const totalPayments = orders.filter(order =>
+  order.paymentStatus === "PAID" ||
+  (order.paymentMethod === "COD" && order.status === "Delivered")
+).length;
+
+    const codPayments = orders.filter(
+      (o) => o.paymentMethod === "COD"
+    ).length;
+
+    const upiPayments = orders.filter(
+      (o) => o.paymentMethod === "UPI"
+    ).length;
+
+    const cardPayments = orders.filter(
+      (o) => o.paymentMethod === "CARD"
+    ).length;
+
     const salesByDate = {};
-    orders.forEach(order => {
-      const date = new Date(order.createdAt).toLocaleDateString();
-      salesByDate[date] = (salesByDate[date] || 0) + order.totalAmount;
+    orders.forEach((order) => {
+      if (!order.createdAt) return;
+
+      const date = new Date(order.createdAt)
+        .toISOString()
+        .split("T")[0];
+
+      salesByDate[date] =
+        (salesByDate[date] || 0) + (order.totalAmount || 0);
     });
+
     const usersByDate = {};
-    users.forEach(user => {
-      const date = new Date(user.createdAt).toLocaleDateString();
+    users.forEach((user) => {
+      if (!user.createdAt) return;
+
+      const date = new Date(user.createdAt)
+        .toISOString()
+        .split("T")[0];
+
       usersByDate[date] = (usersByDate[date] || 0) + 1;
     });
+
     const ordersByDate = {};
-    orders.forEach(order => {
-      const date = new Date(order.createdAt).toISOString().split("T")[0];
+    orders.forEach((order) => {
+      if (!order.createdAt) return;
+
+      const date = new Date(order.createdAt)
+        .toISOString()
+        .split("T")[0];
+
       ordersByDate[date] = (ordersByDate[date] || 0) + 1;
     });
+
     res.json({
       totalOrders,
       totalUsers,
       totalSales,
+      totalPayments,
+      codPayments,
+      upiPayments,
+      cardPayments,
       salesByDate,
       usersByDate,
-      ordersByDate
+      ordersByDate,
     });
 
   } catch (err) {
-    res.status(500).json(err);
+    console.error("ADMIN STATS ERROR:", err);
+    res.status(500).json({
+      message: "Failed to load admin stats",
+      error: err.message,
+    });
   }
 });
 
