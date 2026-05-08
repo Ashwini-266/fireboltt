@@ -14,6 +14,10 @@ function Payment() {
   const product =
     location.state?.product || savedData?.product;
 
+  const validCartItems = (cartItems || []).filter(
+    item => item?.productId
+  );
+
   const [paymentMethod, setPaymentMethod] = useState("");
   const [upiId, setUpiId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,69 +47,59 @@ function Payment() {
 
     try {
       setLoading(true);
+      if (validCartItems && validCartItems.length > 0) {
+        let subtotal = 0;
+        let totalGST = 0;
+        const products = validCartItems.map(item => {
+          const price = item.productId?.price || 0;
+          const qty = item.quantity || 1;
+          const gst = item.productId?.gst || 0;
 
-      
-      if (cartItems && cartItems.length > 0) {
-  let subtotal = 0;
-let totalGST = 0;
+          const base = price * qty;
+          const gstAmount = (base * gst) / 100;
+          subtotal += base;
+          totalGST += gstAmount;
+          return {
+            productId: item.productId?._id,
+            title: item.productId?.title || "",
+            quantity: qty,
+            price: price,
+            gst: gst,
+            gstAmount: gstAmount
+          };
+        });
+        const totalAmount = Number((subtotal + totalGST).toFixed(2));
+        await axios.post(`${process.env.REACT_APP_API_URL}/orders`,
+          {
+            userName: user.firstname,
+            userId: user._id,
+            email: user.email,
+            phone: Number(formData?.phone),
 
-const products = cartItems.map(item => {
-  const price = item.productId.price;
-  const qty = item.quantity;
-  const gst = item.productId.gst || 0;
-
-  const base = price * qty;
-  const gstAmount = (base * gst) / 100;
-  subtotal += base;
-  totalGST += gstAmount;
-
-  return {
-    productId: item.productId._id,
-    title: item.productId.title,
-    quantity: qty,
-    price: price,
-    gst: gst,
-    gstAmount: gstAmount
-  };
-});
-
-const totalAmount = Number((subtotal + totalGST).toFixed(2));
-
-  await axios.post(
-    `${process.env.REACT_APP_API_URL}/orders`,
-    {
-      userName: user.firstname,
-      userId: user._id,
-      email: user.email,
-      phone: Number(formData?.phone),
-
-      products,  
-      subtotal,
-      totalGST,        
-      totalAmount,      
-
-      address: fullAddress,
-      paymentMethod,
-      upiId: paymentMethod === "UPI" ? upiId : null,
-      paymentId: paymentMethod === "CARD" ? paymentId : null,
-      paymentStatus:
-        paymentMethod === "COD" ? "PENDING" : "PAID",
-    }
-  );
-
-  await axios.delete(
-    `${process.env.REACT_APP_API_URL}/cart/${user._id}`
-  );
-}
-
-      // SINGLE PRODUCT
+            products,
+            subtotal,
+            totalGST,
+            totalAmount,
+            address: fullAddress,
+            paymentMethod,
+            upiId: paymentMethod === "UPI" ? upiId : null,
+            paymentId: paymentMethod === "CARD" ? paymentId : null,
+            paymentStatus:
+              paymentMethod === "COD" ? "PENDING" : "PAID",
+          }
+        );
+        await axios.delete(
+          `${process.env.REACT_APP_API_URL}/cart/${user._id}`
+        );
+      }
       else if (product) {
         const price = product.price;
-const qty = product.quantity || 1;
-const gst = product.gst || 0;
+        const qty = product.quantity || 1;
+        const gst = product.gst || 0;
 
-const base = price * qty;
-const gstAmount = (base * gst) / 100;
+        const base = price * qty;
+        const gstAmount = (base * gst) / 100;
+
         await axios.post(
           `${process.env.REACT_APP_API_URL}/orders`,
           {
@@ -115,19 +109,19 @@ const gstAmount = (base * gst) / 100;
             phone: Number(formData?.phone),
 
             products: [
-  {
-    productId: product._id,
-    title: product.title,
-    quantity: product.quantity || 1,
-    price: product.price,
-    gst: gst,
-      gstAmount: gstAmount
-  },
-],
-subtotal: base,
-  totalGST: gstAmount,
-  totalAmount: base + gstAmount,
+              {
+                productId: product._id,
+                title: product.title,
+                quantity: product.quantity || 1,
+                price: product.price,
+                gst: gst,
+                gstAmount: gstAmount
+              },
+            ],
 
+            subtotal: base,
+            totalGST: gstAmount,
+            totalAmount: base + gstAmount,
 
             address: fullAddress,
             paymentMethod,
@@ -152,19 +146,28 @@ subtotal: base,
   // Razorpay Payment
   const handleRazorpayPayment = async () => {
     try {
-      const totalAmount = cartItems
-  ? cartItems.reduce((sum, item) => {
-      const base = item.productId.price * item.quantity;
-      const gstAmount = (base * (item.productId.gst || 0)) / 100;
-      return sum + base + gstAmount;
-    }, 0)
-  : (() => {
-      const base = (product?.price || 0) * (product?.quantity || 1);
-      const gstAmount = (base * (product?.gst || 0)) / 100;
-      return base + gstAmount;
-    })();
+      const totalAmount = validCartItems.length > 0
+        ? validCartItems.reduce((sum, item) => {
+            const base =
+              (item.productId?.price || 0) * item.quantity;
 
-    const user = JSON.parse(localStorage.getItem("user"));
+            const gstAmount =
+              (base * (item.productId?.gst || 0)) / 100;
+
+            return sum + base + gstAmount;
+          }, 0)
+        : (() => {
+            const base =
+              (product?.price || 0) *
+              (product?.quantity || 1);
+
+            const gstAmount =
+              (base * (product?.gst || 0)) / 100;
+
+            return base + gstAmount;
+          })();
+
+      const user = JSON.parse(localStorage.getItem("user"));
 
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/create-razorpay-order`,
@@ -177,21 +180,22 @@ subtotal: base,
         name: "Your Store",
         description: "Order Payment",
         order_id: res.data.id,
+
         handler: function (response) {
           orderPlace(response.razorpay_payment_id);
         },
-prefill: {
-  name: formData?.name,
-  email: user?.email,
-  contact: formData?.phone,
-},
+        prefill: {
+          name: formData?.name,
+          email: user?.email,
+          contact: formData?.phone,
+        },
         theme: {
           color: "#000",
         },
       };
-
       const rzp = new window.Razorpay(options);
       rzp.open();
+
     } catch (err) {
       console.log(err);
       alert("Payment failed");
@@ -205,15 +209,17 @@ prefill: {
       <div className="payment-card">
         <div className="address-card">
           <h4>DELIVERY DETAILS</h4>
+
           <div className="address-box">
             <div>
               <strong>Deliver To {formData?.name}</strong>
+
               <p>
                 {formData?.address}, {formData?.city},<br />
                 {formData?.state} - {formData?.pincode}
               </p>
+
               <p>{formData?.phone}</p>
-              
             </div>
           </div>
         </div>

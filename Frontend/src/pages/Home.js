@@ -176,7 +176,7 @@ function Home() {
             <img src="/images/home1.webp" alt="Smartwatches" style={{width:"100%"}} onClick={()=>navigate("/allcollections")} />
         </div>
         <div className="freshdrops">
-          <h2>Fresh {}<span>Drops</span></h2>
+          <h3>Fresh {}<span>Drops</span></h3>
         </div>
         <div>
             <img src="/images/home2.webp" alt="Smartwatches" style={{width:"100%"}} onClick={()=>navigate("/smartwatches")} />

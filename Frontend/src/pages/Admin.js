@@ -160,7 +160,6 @@ function Admin() {
               <h3>Total Sales</h3>
               <p>₹{stats.totalSales}</p>
             </div>
-
             <div className="card">
               <h3>Payments Received</h3>
 <p>{stats.totalPayments}</p>

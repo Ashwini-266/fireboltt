@@ -10,7 +10,6 @@ const OrderSchema = new mongoose.Schema(
   ref: "users",
   required: true,
 },
-
     products: [
       {
         productId: {
@@ -24,27 +23,21 @@ const OrderSchema = new mongoose.Schema(
         gstAmount:Number
       },
     ],
-
     subtotal: Number,
     totalGST: Number, 
     totalAmount: Number,
-     
     address: String,
-
     paymentMethod: {
       type: String,
       enum: ["COD", "UPI", "CARD"],
     },
-
     upiId: String,
     paymentId: String,
-
     paymentStatus: {
       type: String,
       enum: ["PENDING", "PAID"],
       default: "PENDING",
     },
-
     status: {
       type: String,
       enum: ["Pending", "Shipped", "Delivered"],
@@ -55,3 +48,4 @@ const OrderSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("orders", OrderSchema);
+

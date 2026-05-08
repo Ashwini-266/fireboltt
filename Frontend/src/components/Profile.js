@@ -6,55 +6,85 @@ function Profile() {
   const [orders, setOrders] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
 
-useEffect(() => {
-  if (user) {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/orders/${user._id}`)
-      .then(res => setOrders(res.data))
-      .catch(err => console.log(err));
-  }
-}, [user]);
+  useEffect(() => {
+    if (user) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/orders/${user._id}`)
+        .then(res => setOrders(res.data))
+        .catch(err => console.log(err));
+    }
+  }, [user]);
 
   return (
     <div className='profile-container'>
       <h2>My Profile</h2>
-      
+      <div className="user-profile-card">
+
+        <div className="profile-header">
+
+          <div className="profile-avatar">
+            {user?.firstname?.charAt(0).toUpperCase()}
+          </div>
+
+          <div className="profile-details">
+            <h3>
+              {user?.firstname} {user?.lastname}
+            </h3>
+            <p>
+              <strong>Email:</strong> {user?.email}
+            </p>
+            {user?.phone && (
+              <p>
+                <strong>Phone:</strong> {user?.phone}
+              </p>
+            )}
+            {user?.role && (
+              <p>
+                <strong>Role:</strong> {user?.role}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
       <h3>Order Details</h3>
       <div className='order-details'>
         {orders.length === 0 ? (
-        <p style={{ color: "black" }}>No orders found</p>
+          <p style={{ color: "black" }}>No orders found</p>
         ) : (
-        orders.map((order, index) => (
+          orders.map((order, index) => (
             <div key={index} className='order-card'>
-            <div className="order-row">
+
+              <div className="order-row">
+
                 <div className="order-images">
-                {order.products && order.products.map((item, i) => (
-                item.productId && (
-                  <img
-                    key={i}
-                    src={item.productId.imageUpload}
-                    alt={item.title}
-                    className="order-image"
-                  />
-                )
-              ))}
-                </div>
-                <div className="order-info">
-                <div className="product-names">
                   {order.products && order.products.map((item, i) => (
-                    <p key={i}>
-                      {item.title} (x{item.quantity})
-                    </p>
+                    item.productId && (
+                      <img
+                        key={i}
+                        src={item.productId.imageUpload}
+                        alt={item.title}
+                        className="order-image"
+                      />
+                    )
                   ))}
                 </div>
-                <p>Order ID: {order._id}</p>
-                <p>Total: ₹{order.totalAmount}</p>
-                <p><strong>Status:</strong> {order.status}</p>
+                <div className="order-info">
+                  <div className="product-names">
+                    {order.products && order.products.map((item, i) => (
+                      <p key={i}>
+                        {item.title} (x{item.quantity})
+                      </p>
+                    ))}
+                  </div>
+                  <p>Order ID: {order._id}</p>
+                  <p>Total: ₹{order.totalAmount}</p>
+                  <p>
+                    <strong>Status:</strong> {order.status}
+                  </p>
                 </div>
-
+              </div>
             </div>
-            </div>
-        ))
+          ))
         )}
       </div>
     </div>

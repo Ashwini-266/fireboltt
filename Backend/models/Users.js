@@ -16,3 +16,6 @@ const userSchema=new mangoose.Schema({
 
 const UserModel=mangoose.model("users",userSchema)
 module.exports=UserModel;
+
+
+

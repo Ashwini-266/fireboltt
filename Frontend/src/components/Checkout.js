@@ -23,11 +23,15 @@ function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const totalPrice = cartItems
-  ? cartItems.reduce((sum, item) => {
-      const price = item.productId.price;
-      const qty = item.quantity;
-      const gst = item.productId.gst || 0;
+  const validCartItems = (cartItems || []).filter(
+  item => item?.productId
+);
+
+const totalPrice = validCartItems.length > 0
+  ? validCartItems.reduce((sum, item) => {
+      const price = item.productId?.price || 0;
+      const qty = item.quantity || 1;
+      const gst = item.productId?.gst || 0;
 
       const base = price * qty;
       const gstAmount = (base * gst) / 100;
@@ -44,6 +48,7 @@ function Checkout() {
 
       return base + gstAmount;
     })();
+
 
   const continueToPayment = () => {
     if (!form.name || !form.phone || !form.address) {
@@ -79,19 +84,14 @@ function Checkout() {
             <h2>order summary</h2>
             {
             cartItems ? (
-              cartItems.map((item) => (
+              validCartItems.map((item) => (
                 <div key={item._id} className="product-card">
-                  <img
-  src={item.productId?.imageUpload}
-  alt={item.productId?.title}
-  style={{ width: "100px" }}
-/>
-
+                  <img src={item.productId?.imageUpload} alt={item.productId?.title} style={{ width: "100px" }}/>
                   <div className="product-info">
-                    <p className="title">{item.productId.title}</p>
-                    <p>Price: ₹{item.productId.price * item.quantity}</p>
-                    <p>GST ({item.productId.gst}%): ₹{
-                      (item.productId.price * item.quantity * item.productId.gst) / 100
+                    <p className="title">{item.productId?.title}</p>
+                    <p>Price: ₹{item.productId?.price * item.quantity}</p>
+                    <p>GST ({item.productId?.gst}%): ₹{
+                      (item.productId?.price * item.quantity * item.productId?.gst) / 100
                     }</p>
                   </div>                 
                 </div>

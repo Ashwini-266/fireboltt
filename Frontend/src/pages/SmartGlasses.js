@@ -12,36 +12,45 @@ function SmartGlasses(){
     const[count,setCount]=useState(0);
     const location = useLocation();
     const[qnty,setQnty]=useState(1);
-
-    useEffect(() => {
-      const params = new URLSearchParams(location.search);
-      const query = params.get("search");
-      const url = `${process.env.REACT_APP_API_URL}/products/category/smartglasses`;
-      const finalUrl = query ? `${url}?search=${query}` : url;
-      axios
-        .get(finalUrl)
-        .then((res) => {
-          setProducts(res.data);
-          setCount(res.data.length);
-        })
-        .catch((err) => console.log(err));
-    }, [location.search]);
+    const [price, setPrice] = useState("");
 
     //search
     const handleSearch = (e) => {
-        const value = e.target.value;
-        setSearch(value);
-        if (value.trim()) {
-          navigate(`?search=${value}`);
-        } else {
-          navigate("");
-        }
+    const value = e.target.value;
+    setSearch(value);
+    if (value.trim()) {
+      navigate(`?search=${value}`);
+    } else {
+      navigate("");
+    }
     };
 
-  useEffect(() => {
+
+    useEffect(() => {
     const params = new URLSearchParams(location.search);
-    setSearch(params.get("search") || "");
-  }, [location.search]);
+    const query = params.get("search");
+
+    let url = `${process.env.REACT_APP_API_URL}/products/category/smartglasses`;
+
+    const queryParams = [];
+
+    if (query) queryParams.push(`search=${query}`);
+    if (price) queryParams.push(`price=${price}`);
+
+    if (queryParams.length > 0) {
+      url += "?" + queryParams.join("&");
+    }
+
+    axios.get(url)
+      .then((res) => {
+        setProducts(res.data);
+        setCount(res.data.length);
+      })
+      .catch((err) => console.log(err));
+
+  }, [location.search, price]);
+
+  
 
   //add to cart 
   const addProduct = async (product) => {
@@ -78,12 +87,27 @@ function SmartGlasses(){
                 <input type="search" className="search" placeholder="search" value={search} onChange={handleSearch}/>            
             <div>Products:{count}</div>
         </div>
-        <div className="grid-container">
-            <div>
-                <h6 style={{margin:"10px 0 0 0",fontSize:"24px"}}>Filter</h6>
-                <div className="line"></div>
-                <h6 style={{margin:"10px 0 0 0",fontSize:"24px"}}>Availability</h6>
-                <div className="line"></div>
+            <div className="grid-container">
+          <div>
+            <h6 style={{margin:"10px 0 0 0",fontSize:"24px"}}>Filter</h6>
+            <div className="line"></div>
+              <h6 style={{margin:"10px 0 0 0",fontSize:"24px"}}>Price</h6>
+              <label>
+                <input type="radio" name="price" value="1000" onChange={(e)=>setPrice(e.target.value)} />
+                Under ₹1000
+              </label>
+              <label>
+                <input type="radio" name="price" value="2000" onChange={(e)=>setPrice(e.target.value)} />
+                Under ₹2000
+                </label>
+              <label>
+                <input type="radio" name="price" value="5000" onChange={(e)=>setPrice(e.target.value)} />
+                Under ₹5000
+              </label>
+              <label>
+                <input type="radio" name="price" value="" onChange={()=>setPrice("")} />
+                All
+              </label>
             </div>
             <div className="grid-item">
                 <div className="best-grid">  

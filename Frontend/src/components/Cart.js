@@ -102,10 +102,12 @@ const cartItems = location.state?.cartItems;
 
     return (
         <div className="cart-container">
-            {cartData.map((item, index) => (
+            {cartData
+              .filter(item => item.productId)
+              .map((item, index) => (
                 <div key={index} className="cart-item" style={{display:"flex",gap:"20px"}}>
                     <div className="cart-left">
-                       <img src={item.productId.imageUpload} alt={item.productId.title} />
+                       <img src={item.productId?.imageUpload} alt={item.productId?.title} />
                     </div>
                     <div className="cart-right">
                         <p><strong>{item.productId.title}</strong></p>
@@ -122,7 +124,11 @@ const cartItems = location.state?.cartItems;
             ))}
             <div className="cart-summary">
               <p className="total"><strong>Estimated Total: ₹{totalPrice}</strong></p>
-              <button className="checkout" onClick={() => navigate("/checkout", { state: { cartItems: cartData } })}><strong>CheckOut</strong></button>
+              <button className="checkout" onClick={() => navigate("/checkout", {
+                state: {
+                  cartItems: cartData.filter(item => item.productId)
+                }
+              })}><strong>CheckOut</strong></button>
             </div>
           </div>
 
@@ -130,3 +136,5 @@ const cartItems = location.state?.cartItems;
       }
 
 export default Cart;
+
+

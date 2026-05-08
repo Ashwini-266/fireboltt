@@ -224,12 +224,12 @@
   align-items: center;
   margin-bottom: 30px;
 }
-.freshdrops h2 {
+.freshdrops h3 {
   font-size: 26px;
   border-bottom: 2px solid black;
 }
 
-.freshdrops h2 span{
+.freshdrops h3 span{
   color:#ff4d00;
 }
 

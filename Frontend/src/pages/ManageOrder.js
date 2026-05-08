@@ -41,20 +41,59 @@ function ManageOrder() {
   //search
   const filteredOrders = orders.filter((order) => {
   const searchText = search.toLowerCase();
+
   const matchesText =
     order.userName?.toLowerCase().includes(searchText) ||
     order.status?.toLowerCase().includes(searchText) ||
     order.paymentMethod?.toLowerCase().includes(searchText) ||
     order.address?.toLowerCase().includes(searchText);
+
   const matchesDate =
-  !date ||
-  new Date(order.createdAt).toISOString().slice(0, 10) === date;
-   return matchesText && matchesDate;
-  })
+    !date ||
+    new Date(order.createdAt).toISOString().slice(0, 10) === date;
+
+  // FILTER LOGIC
+  let matchesFilter = true;
+
+  if (filter === "upi") {
+    matchesFilter = order.paymentMethod?.toLowerCase() === "upi";
+  }
+
+  else if (filter === "cod") {
+    matchesFilter = order.paymentMethod?.toLowerCase() === "cod";
+  }
+
+  else if (filter === "delivered") {
+    matchesFilter = order.status?.toLowerCase() === "delivered";
+  }
+
+  else if (filter === "shipped") {
+    matchesFilter = order.status?.toLowerCase() === "shipped";
+  }
+
+  else if (filter === "pending") {
+    matchesFilter = order.status?.toLowerCase() === "pending";
+  }
+
+  else if (filter === "paid") {
+    matchesFilter = order.paymentStatus?.toLowerCase() === "paid";
+  }
+
+  else if (filter === "price < 500") {
+    matchesFilter = order.totalAmount < 500;
+  }
+
+  else if (filter === "price > 1000") {
+    matchesFilter = order.totalAmount > 1000;
+  }
+
+  return matchesText && matchesDate && matchesFilter;
+});
 
 
   const handleFilter = (e) => {
-  };
+  setFilter(e.target.value.toLowerCase());
+};
 
   return (
     <>
@@ -70,15 +109,15 @@ function ManageOrder() {
         />
 
         <datalist id="data">
-          <option value="upi" />
-          <option value="smartaudio" />
-          <option value="smartglasses" />
-          <option value="accessories" />
-          <option value="Price < 500" />
-          <option value="Price > 1000" />
-          <option value="Rating >= 4" />
-          <option value="Rating < 4" />
-        </datalist>
+  <option value="upi" />
+  <option value="cod" />
+  <option value="paid" />
+  <option value="pending" />
+  <option value="shipped" />
+  <option value="delivered" />
+  <option value="price < 500" />
+  <option value="price > 1000" />
+</datalist>
 
         <button
           className="back-button"

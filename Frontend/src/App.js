@@ -29,8 +29,7 @@ function Layout() {
   const role = localStorage.getItem("role");
   const location = useLocation();
   const hideHeaderFooter =
-  location.pathname.startsWith("/payment") ||
-  location.pathname.startsWith("/checkout");
+  location.pathname.startsWith("/payment") || location.pathname.startsWith("/checkout");
 
   return (
     <>
@@ -57,9 +56,7 @@ function Layout() {
         <Route path="/allcollections" element={<AllCollections />}/>
         <Route path="/accessories" element={<Accessories />}/>
         <Route path="/profile" element={<Profile />} />
-        
       </Routes>
-
       {!hideHeaderFooter && role !== "admin" && <Footer />}
     </>
   );
