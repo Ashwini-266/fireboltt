@@ -24,6 +24,7 @@ import AllCollections from "./pages/AllCollections";
 import Accessories from "./pages/Accessories";
 import Profile from "./components/Profile";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Contact from "./pages/Contact";
 
 function Layout() {
   const role = localStorage.getItem("role");
@@ -56,6 +57,7 @@ function Layout() {
         <Route path="/allcollections" element={<AllCollections />}/>
         <Route path="/accessories" element={<Accessories />}/>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       {!hideHeaderFooter && role !== "admin" && <Footer />}
     </>

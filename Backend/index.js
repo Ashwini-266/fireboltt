@@ -4,6 +4,7 @@ const cors=require("cors")
 const UserModel=require("./models/Users")
 const ProductModel=require("./models/Products")
 const CartModel = require("./models/Cart");
+const ContactModel = require("./models/Contact");
 const multer = require("multer");
 
 const OrderModel = require("./models/Orders");
@@ -590,6 +591,39 @@ const totalPayments = orders.filter(order =>
       error: err.message,
     });
   }
+});
+
+
+// contact form
+app.post("/contact", async (req, res) => {
+
+  try {
+
+    const { name, email, message } = req.body;
+
+    const newContact = await ContactModel.create({
+      name,
+      email,
+      message,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "thank you for contacting us",
+      data: newContact,
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to send message",
+    });
+
+  }
+
 });
 
 

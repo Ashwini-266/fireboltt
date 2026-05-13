@@ -56,6 +56,9 @@ function Navbar() {
       <div className="nav-links">
         <p onClick={() => navigate("/Gifting")}>Gifting💰</p>
       </div>
+      <div className="nav-links">
+        <p onClick={() => navigate("/contact")}>Contact</p>
+      </div>
 
       <div className="icons">
         <input type="search" className="search" placeholder="search" value={search} onChange={handleSearch}/>
