@@ -11,6 +11,7 @@ function Home() {
   const navigate=useNavigate();
   const [products, setProducts] = useState([]);
   const[count,setCount]=useState(1);
+  const [smartaudioproducts, setSmartaudioProducts] = useState([]);
   
   
   useEffect(() => {
@@ -28,7 +29,7 @@ function Home() {
       try {
         const url = search
           ? `${process.env.REACT_APP_API_URL}/products?search=${search}`
-          : `${process.env.REACT_APP_API_URL}/products`;
+          : `${process.env.REACT_APP_API_URL}/products/category/smartwatch`;
         const response = await axios.get(url);
         setProducts(response.data);
       } catch (error) {
@@ -38,6 +39,20 @@ function Home() {
 
     fetchdata();
   }, [location.search]);
+
+  useEffect(() => {
+    const fetchSmartaudioProducts = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/products/category/smartaudio`);
+        setSmartaudioProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching smart audio products:", error);
+      }
+    };
+
+    fetchSmartaudioProducts();
+  }, []);
+
 
   // Add to cart 
   const addProduct = async (product) => {
@@ -157,7 +172,7 @@ function Home() {
               <img src={product.imageUpload} alt={product.title} style={{ width: "200px" }} />
               <h3>{product.title}</h3>
               <p>Price: {product.price}</p>
-              <p>Rating: {product.rating}</p>
+              <p>Rating: {product.rating}⭐</p>
               <button className="home-cart" onClick={(e)=>{ 
                 e.stopPropagation();
                 addProduct(product)
@@ -177,7 +192,24 @@ function Home() {
         </div>
         <div className="freshdrops">
           <h3>Fresh {}<span>Drops</span></h3>
-        </div>
+          </div>
+          <div className="best-grid">
+          {
+          smartaudioproducts.map((product) => (
+            <div className="indivual-product" key={product._id} onClick={()=>navigate(`/ProductDisplay/${product._id}`)}>
+              <img src={product.imageUpload} alt={product.title} style={{ width: "200px" }} />
+              <h3>{product.title}</h3>
+              <p>Price: {product.price}</p>
+              <p>Rating: {product.rating}</p>
+              <button className="home-cart" onClick={(e)=>{ 
+                e.stopPropagation();
+                addProduct(product)
+            }}>
+            Add to Cart</button>
+            </div>
+          ))
+          }
+          </div>
         <div>
             <img src="/images/home2.webp" alt="Smartwatches" style={{width:"100%"}} onClick={()=>navigate("/smartwatches")} />
           </div>
